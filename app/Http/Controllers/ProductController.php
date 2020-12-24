@@ -241,7 +241,7 @@ class ProductController extends Controller
                     }
 
                 }else{
-                    dump("entre");
+                   
                     $slug = $product->slug."-".$productTypeSize["color"]["name"]."-".$productTypeSize["size"]["size"];
 
                     if(ProductColorSize::where("slug", $slug)->count() > 0){
