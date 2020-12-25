@@ -53,6 +53,10 @@ Route::post("/products/update", "ProductController@update");
 Route::get("/products/fetch/{page}", "ProductController@fetch");
 Route::get("/products/edit/{id}", "ProductController@edit");
 
+Route::get("/sales", "SaleController@index")->name("sales");
+Route::get("/sales/fetch/{fetch}", "SaleController@fetch");
+Route::get("/sales/excel", "SaleController@excelExport");
+Route::get("/sales/csv", "SaleController@csvExport");
 
 Route::get("/admin-email", "AdminMailController@index")->name("admin.email");
 Route::post("admin-email/store", "AdminMailController@store");

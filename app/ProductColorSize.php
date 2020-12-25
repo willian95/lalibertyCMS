@@ -21,4 +21,8 @@ class ProductColorSize extends Model
         return $this->belongsTo(Size::class);
     }
 
+    public function productPurchase(){
+        return $this->hasMany(ProductPurchase::class);
+    }
+
 }
