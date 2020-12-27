@@ -48,7 +48,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="image">Imagen</label>
-                                <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*">
+                                <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
 
                                 <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
                                 <small v-if="errors.hasOwnProperty('image')">@{{ errors['image'][0] }}</small>

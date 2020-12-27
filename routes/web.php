@@ -53,6 +53,14 @@ Route::post("/products/update", "ProductController@update");
 Route::get("/products/fetch/{page}", "ProductController@fetch");
 Route::get("/products/edit/{id}", "ProductController@edit");
 
+Route::get("/blogs/create", "BlogController@create")->name("blog.create");
+Route::get("/blogs/list", "BlogController@list")->name("blog.list");
+Route::post("/blogs/store", "BlogController@store");
+Route::post("/blogs/delete", "BlogController@delete");
+Route::post("/blogs/update", "BlogController@update");
+Route::get("/blogs/fetch/{page}", "BlogController@fetch");
+Route::get("/blogs/edit/{id}", "BlogController@edit");
+
 Route::get("/sales", "SaleController@index")->name("sales");
 Route::get("/sales/fetch/{fetch}", "SaleController@fetch");
 Route::get("/sales/excel", "SaleController@excelExport");
@@ -63,3 +71,20 @@ Route::post("admin-email/store", "AdminMailController@store");
 Route::get("/admin-email/fetch", "AdminMailController@fetch");
 Route::post("/admin-email/update", "AdminMailController@update");
 Route::post("/admin-email/delete", "AdminMailController@delete");
+
+Route::get("/works/create", "WorkController@create")->name("work.create");
+Route::get("/works/list", "WorkController@list")->name("work.list");
+Route::post("/works/store", "WorkController@store");
+Route::post("/works/delete", "WorkController@delete");
+Route::post("/works/update", "WorkController@update");
+Route::get("/works/fetch/{page}", "WorkController@fetch");
+Route::get("/works/edit/{id}", "WorkController@edit");
+
+Route::get("/blogs/create", "BlogController@create")->name("blog.create");
+Route::get("/blogs/list", "BlogController@list")->name("blog.list");
+Route::post("/blogs/store", "BlogController@store");
+Route::post("/blogs/delete", "BlogController@delete");
+Route::post("/blogs/update", "BlogController@update");
+Route::get("/blogs/fetch/{page}", "BlogController@fetch");
+Route::get("/blogs/edit/{id}", "BlogController@edit");
+
