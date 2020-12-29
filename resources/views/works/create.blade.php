@@ -195,7 +195,7 @@
                                     text: "Work creado!",
                                     icon: "success"
                                 }).then(function() {
-                                    window.location.href = "{{ url('/home') }}";
+                                    window.location.href = "{{ url('/works/list') }}";
                                 });
                                 
 

@@ -348,7 +348,7 @@
                                     text: "Producto creado!",
                                     icon: "success"
                                 }).then(function() {
-                                    window.location.href = "{{ url('/home') }}";
+                                    window.location.href = "{{ url('/products/list') }}";
                                 });
                                 
 
