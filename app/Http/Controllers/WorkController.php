@@ -250,10 +250,10 @@ class WorkController extends Controller
 
         try{
 
-            Product::where("id", $request->id)->delete();
-            ProductColorSize::where("product_id", $request->id)->delete();
+            Work::where("id", $request->id)->delete();
+            WorkInnae::where("work_id", $request->id)->delete();
 
-            return response()->json(["success" => true, "msg" => "Producto eliminado"]);
+            return response()->json(["success" => true, "msg" => "Work eliminado"]);
 
         }catch(\Exception $e){
 
