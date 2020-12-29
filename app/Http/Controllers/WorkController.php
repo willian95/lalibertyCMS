@@ -69,6 +69,7 @@ class WorkController extends Controller
             $work->description = $sanitizedDescription;
             $work->main_image = url('/').'/images/works/'.$fileName;
             $work->slug = $slug;
+            $work->is_fashion_merch = $request->isFashionMerch;
             $work->save();
 
             foreach($request->workImages as $workImage){
@@ -175,6 +176,7 @@ class WorkController extends Controller
             if($request->get("image") != null){
                 $product->main_image =  url('/').'/images/works/'.$fileName;
             }
+            $work->is_fashion_merch = $request->isFashionMerch;
             $work->update();
 
             $WorkImagesArray = [];

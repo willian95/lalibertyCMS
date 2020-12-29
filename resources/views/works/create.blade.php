@@ -48,11 +48,20 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="description">Descripción</label>
                                 <textarea v-model="description" id="description" class="form-control" rows="3"></textarea>
                                 <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" style="padding-top: 20px;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="defaultCheck1" v-model="isFashionMerch">
+                                <label class="form-check-label" for="defaultCheck1">
+                                    ¿Es fashion merch?
+                                </label>
                             </div>
                         </div>
 
@@ -157,6 +166,7 @@
                     imagePreview:"",
                     clientName:"",
                     title:"",
+                    isFashionMerch:false,
                     description:"",
                     action:"create",
                     secondaryPicture:"",
@@ -176,7 +186,7 @@
 
                     if(this.workImages.length > 0){
                         this.loading = true
-                        axios.post("{{ url('/works/store') }}", {title:this.title, image: this.picture, workImages: this.workImages, description: this.description, clientName: this.clientName}).then(res => {
+                        axios.post("{{ url('/works/store') }}", {title:this.title, image: this.picture, workImages: this.workImages, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch}).then(res => {
                             this.loading = false
                             if(res.data.success == true){
 
