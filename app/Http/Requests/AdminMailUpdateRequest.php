@@ -13,7 +13,7 @@ class AdminMailUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class AdminMailUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "email" => "required"
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "email.required" => "Correo adminsitrativo es requerido"
         ];
     }
 }
