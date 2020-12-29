@@ -276,7 +276,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="type">Tamaño</label>
-                                        <input type="text" class="form-control" v-model="newSize" @keypress="isNumberDot($event)">
+                                        <input type="text" class="form-control" v-model="newSize">
                                         <small v-if="sizeErrors.hasOwnProperty('size')">@{{ sizeErrors['size'][0] }}</small>
                                     </div>
                                 </div>
