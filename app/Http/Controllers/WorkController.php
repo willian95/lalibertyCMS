@@ -251,7 +251,7 @@ class WorkController extends Controller
         try{
 
             Work::where("id", $request->id)->delete();
-            WorkInnae::where("work_id", $request->id)->delete();
+            WorkImage::where("work_id", $request->id)->delete();
 
             return response()->json(["success" => true, "msg" => "Work eliminado"]);
 
