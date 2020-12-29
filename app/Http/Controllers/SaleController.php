@@ -8,6 +8,10 @@ use App\User;
 use App\GuestUser;
 use App\ProductPurchase;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\SalesExport;
+
+
 class SaleController extends Controller
 {
     
@@ -53,6 +57,14 @@ class SaleController extends Controller
             return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
         }
 
+    }
+
+    function excelExport(){
+        return Excel::download(new SalesExport, 'ventas.xlsx');
+    }
+
+    function csvExport(){
+        return Excel::download(new SalesExport, 'ventas.csv');
     }
 
     /*function sendTracking(Request $request){

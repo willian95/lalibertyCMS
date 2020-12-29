@@ -10,6 +10,9 @@ use App\ProductColorSize;
 
 use Illuminate\Http\Request;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductsExport;
+
 class ProductController extends Controller
 {
     function create(){
@@ -285,5 +288,19 @@ class ProductController extends Controller
 
         }
 
+    }
+
+    function excelExport(){
+
+        $excel = ProductColorSize::with("product")
+        ->with("product", "size", "color")->get();
+
+        //dd($excel);
+
+        return Excel::download(new ProductsExport, 'productos.xlsx');
+    }
+
+    function csvExport(){
+        return Excel::download(new ProductsExport, 'productos.csv');
     }
 }

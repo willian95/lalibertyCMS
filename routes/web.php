@@ -52,6 +52,8 @@ Route::post("/products/delete", "ProductController@delete");
 Route::post("/products/update", "ProductController@update");
 Route::get("/products/fetch/{page}", "ProductController@fetch");
 Route::get("/products/edit/{id}", "ProductController@edit");
+Route::get("/products/excel", "ProductController@excelExport");
+Route::get("/products/csv", "ProductController@csvExport");
 
 Route::get("/blogs/create", "BlogController@create")->name("blog.create");
 Route::get("/blogs/list", "BlogController@list")->name("blog.list");
@@ -87,4 +89,3 @@ Route::post("/blogs/delete", "BlogController@delete");
 Route::post("/blogs/update", "BlogController@update");
 Route::get("/blogs/fetch/{page}", "BlogController@fetch");
 Route::get("/blogs/edit/{id}", "BlogController@edit");
-
