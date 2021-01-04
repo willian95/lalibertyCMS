@@ -93,7 +93,17 @@ class WorkController extends Controller
                     fwrite($ifp, base64_decode( $data[1] ) );
                     rename($fileName, 'images/works/'.$fileName);
     
-                }else{  
+                }
+                else if(strpos($imageData, "gif") > 0){
+
+                    $data = explode( ',', $imageData);
+                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."gif";
+                    $ifp = fopen($fileName, 'wb' );
+                    fwrite($ifp, base64_decode( $data[1] ) );
+                    rename($fileName, 'images/works/'.$fileName);
+    
+                }
+                else{  
                    
                     $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
                     Image::make($imageData)->save(public_path('images/works/').$fileName);
@@ -159,7 +169,17 @@ class WorkController extends Controller
                     fwrite($ifp, base64_decode( $data[1] ) );
                     rename($fileName, 'images/works/'.$fileName);
     
-                }else{
+                }
+                else if(strpos($imageData, "gif") > 0){
+
+                    $data = explode( ',', $imageData);
+                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."gif";
+                    $ifp = fopen($fileName, 'wb' );
+                    fwrite($ifp, base64_decode( $data[1] ) );
+                    rename($fileName, 'images/works/'.$fileName);
+    
+                }
+                else{
     
                     $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
                     Image::make($request->get('image'))->save(public_path('images/works/').$fileName);
@@ -225,7 +245,17 @@ class WorkController extends Controller
                             fwrite($ifp, base64_decode( $data[1] ) );
                             rename($fileName, 'images/works/'.$fileName);
             
-                        }else{
+                        }
+                        else if(strpos($imageData, "gif") > 0){
+
+                            $data = explode( ',', $imageData);
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."gif";
+                            $ifp = fopen($fileName, 'wb' );
+                            fwrite($ifp, base64_decode( $data[1] ) );
+                            rename($fileName, 'images/works/'.$fileName);
+            
+                        }
+                        else{
             
                             $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
                             Image::make($imageData)->save(public_path('images/works/').$fileName);
