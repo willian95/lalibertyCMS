@@ -87,7 +87,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
 			<a href="{{ url('/') }}">
-				<img alt="Logo" class="w-45px" src="http://imgfz.com/i/qZ9zOXD.png" />
+				<img alt="Logo" class="w-45px" src="https://www.laliberty.com.co/assets/img/logo.png" style="filter: invert(1);" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -129,15 +129,9 @@ License: You must have a valid license purchased only from themeforest(the above
 					<!--begin::Brand-->
 					<div class="brand flex-column-auto" id="kt_brand">
 						<!--begin::Logo-->
-						{{--<a href="{{ url('/') }}" class="brand-logo">
-							<img alt="Logo" class="w-65px" src="http://imgfz.com/i/qZ9zOXD.png" />
-						</a>--}}
-						<!--end::Logo-->
-						<style>
-							.w-65px {
-    width: 130px !important;
-}
-						</style>
+						<a href="{{ url('/') }}">
+							<img alt="Logo" src="https://www.laliberty.com.co/assets/img/logo.png" style="filter: invert(1); width: 100px;" />
+						</a>
 					</div>
 					<!--end::Brand-->
 					<!--begin::Aside Menu-->
@@ -360,7 +354,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<!--begin::Copyright-->
 							<div class="text-dark text-center" style="width: 100%;">
 								<span class="text-muted font-weight-bold mr-2">2020 - 2021©</span>
-								<a href="h#" target="_blank" class="text-dark-75 text-hover-primary">Aida Caceres Art Copyright</a>
+								<a href="h#" target="_blank" class="text-dark-75 text-hover-primary">Laliberty Copyright</a>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Nav-->

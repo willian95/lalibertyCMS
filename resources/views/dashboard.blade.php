@@ -19,7 +19,7 @@
                         <!--begin::Body-->
                         <div class="card-body p-0 position-relative overflow-hidden">
                             <!--begin::Chart-->
-                            <div id="kt_mixed_widget_2_chart" class="card-rounded-bottom bg-primary" style="height: 200px"></div>
+                            <div id="kt_mixed_widget_2_chart" class="card-rounded-bottom bg-dark" style="height: 200px"></div>
                             <!--end::Chart-->
                             <!--begin::Stats-->
                             <div class="card-spacer mt-n25">
