@@ -68,7 +68,7 @@ class WorkController extends Controller
             $work->title = $request->title;
             $work->client_name = $request->clientName;
             $work->description = $sanitizedDescription;
-            $work->main_image = url('/').'/images/works/'.$fileName;
+            $work->main_image = $fileName;
             $work->slug = $slug;
             $work->is_fashion_merch = $request->isFashionMerch;
             $work->created_date = $request->createdDate;
@@ -101,7 +101,7 @@ class WorkController extends Controller
 
                 $image = new WorkImage;
                 $image->work_id = $work->id;
-                $image->image = url('/').'/images/works/'.$fileName;
+                $image->image = $fileName;
                 if($isVideo == true){
                     $image->file_type = "video";
                 }
@@ -187,7 +187,7 @@ class WorkController extends Controller
             $work->client_name = $request->clientName;
             $work->description = $sanitizedDescription;
             if($request->get("image") != null){
-                $product->main_image =  url('/').'/images/works/'.$fileName;
+                $product->main_image =  $fileName;
             }
             $work->is_fashion_merch = $request->isFashionMerch;
             $work->created_date = $request->createdDate;
@@ -250,7 +250,7 @@ class WorkController extends Controller
 
                     $workImage = new WorkImage;
                     $workImage->work_id = $work->id;
-                    $workImage->image = url('/').'/images/works/'.$fileName;
+                    $workImage->image = $fileName;
                     if($isVideo == true){
                         $workImage->file_type = "video";
                     }

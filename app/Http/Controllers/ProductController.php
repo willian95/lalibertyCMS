@@ -73,7 +73,7 @@ class ProductController extends Controller
             $product->name = $request->name;
             $product->category_id = $request->category;
             $product->description = $sanitizedDescription;
-            $product->image = url('/').'/images/products/'.$fileName;
+            $product->image = $fileName;
             $product->slug = $slug;
             $product->save();
 
@@ -195,7 +195,7 @@ class ProductController extends Controller
             $product->category_id = $request->category;
             $product->description = $sanitizedDescription;
             if($request->get("image") != null){
-                $product->image =  url('/').'/images/products/'.$fileName;
+                $product->image =  $fileName;
             }
             $product->update();
 

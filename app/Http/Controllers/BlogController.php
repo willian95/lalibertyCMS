@@ -60,7 +60,7 @@ class BlogController extends Controller
             $blog = new Blog;
             $blog->title = $request->title;
             $blog->description = $request->description;
-            $blog->image = url('/').'/images/blogs/'.$fileName;
+            $blog->image = $fileName;
             $blog->slug = $slug;
             $blog->created_date = $request->createdDate;
             $blog->save();
@@ -134,7 +134,7 @@ class BlogController extends Controller
             $blog->title = $request->title;
             $blog->description = $request->description;
             if($request->get("image") != null){
-                $blog->image =  url('/').'/images/blogs/'.$fileName;
+                $blog->image =  $fileName;
             }
             $blog->created_date = $request->createdDate;
             $blog->update();
