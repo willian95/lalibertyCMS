@@ -68,7 +68,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="defaultCheck1" v-model="isFashionMerch">
                                 <label class="form-check-label" for="defaultCheck1">
-                                    Work & Fashion Merch
+                                    Activar como Fashion Merch
                                 </label>
                             </div>
                         </div>
