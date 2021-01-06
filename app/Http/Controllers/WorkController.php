@@ -80,12 +80,23 @@ class WorkController extends Controller
             $work->main_image = url('/').'/images/works/'.$fileName;
             $work->slug = $slug;
             $work->is_fashion_merch = $request->isFashionMerch;
+            $work->created_date = $request->createdDate;
             $work->save();
 
             foreach($request->workImages as $workImage){
 
+                $isVideo = false;
                 $imageData = $workImage["image"];
-                if(strpos($imageData, "svg+xml") > 0){
+                
+                if(explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[0] == "video"){
+                    $isVideo = true;
+                    $data = explode( ',', $imageData);
+                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'.explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                    $ifp = fopen($fileName, 'wb' );
+                    fwrite($ifp, base64_decode( $data[1] ) );
+                    rename($fileName, 'images/works/'.$fileName);
+                }
+                else if(strpos($imageData, "svg+xml") > 0){
 
                     $data = explode( ',', $imageData);
                     $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
@@ -113,6 +124,9 @@ class WorkController extends Controller
                 $image = new WorkImage;
                 $image->work_id = $work->id;
                 $image->image = url('/').'/images/works/'.$fileName;
+                if($isVideo == true){
+                    $image->file_type = "video";
+                }
                 $image->save();
 
             }
@@ -125,14 +139,14 @@ class WorkController extends Controller
 
     }
 
-    function fetch($page){
+    function fetch($page, Request $request){
 
         try{
 
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
            
-            $works = Work::skip($skip)->take($dataAmount)->get();
+            $works = Work::skip($skip)->take($dataAmount)->orderBy("created_date", $request->orderBy)->get();
             $worksCount = Work::count();
 
             return response()->json(["success" => true, "works" => $works, "worksCount" => $worksCount, "dataAmount" => $dataAmount]);
@@ -207,6 +221,7 @@ class WorkController extends Controller
                 $product->main_image =  url('/').'/images/works/'.$fileName;
             }
             $work->is_fashion_merch = $request->isFashionMerch;
+            $work->created_date = $request->createdDate;
             $work->update();
 
             $WorkImagesArray = [];
@@ -230,13 +245,21 @@ class WorkController extends Controller
 
             foreach($request->workImages as $image){
                 
-                
+                $isVideo = false;
                 if($image["image"] != null && !array_key_exists("id", $image)){
 
                     try{
         
                         $imageData = $image['image'];
-            
+                        
+                        if(explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[0] == "video"){
+                            $isVideo = true;
+                            $data = explode( ',', $imageData);
+                            $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'.explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+                            $ifp = fopen($fileName, 'wb' );
+                            fwrite($ifp, base64_decode( $data[1] ) );
+                            rename($fileName, 'images/works'.$fileName);
+                        }
                         if(strpos($imageData, "svg+xml") > 0){
             
                             $data = explode( ',', $imageData);
@@ -272,6 +295,9 @@ class WorkController extends Controller
                     $workImage = new WorkImage;
                     $workImage->work_id = $work->id;
                     $workImage->image = url('/').'/images/works/'.$fileName;
+                    if($isVideo == true){
+                        $workImage->file_type = "video";
+                    }
                     $workImage->save();
         
                 }

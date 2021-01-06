@@ -99,6 +99,17 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <!--begin: Datatable-->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Odernar por:</label>
+                                <select class="form-control" v-model="orderBy" @change="fetch()">
+                                    <option value="desc">Recientes</option>
+                                    <option value="asc">Antiguos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable" style="">
                         <table class="table">
                             <thead>
@@ -109,6 +120,9 @@
 
                                     <th class="datatable-cell datatable-cell-sort" style="width: 250px;">
                                         <span style="width: 130px;">Imagen</span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort">
+                                        <span style="width: 250px;">Fecha de creación</span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 130px;">Acciones</span>
@@ -122,6 +136,9 @@
                                     </td>
                                     <td>
                                         <img :src="blog.image" alt="" style="width: 100%;">
+                                    </td>
+                                    <td>
+                                        @{{ dateFormatter(blog.created_at) }}
                                     </td>
                                     <td>
                                         <a class="btn btn-info" :href="'{{ url('/') }}'+'/blogs/edit/'+blog.id"><i class="far fa-edit"></i></a>
@@ -179,16 +196,33 @@
                     blogs:[],
                     pages:0,
                     page:1,
+                    orderBy:"desc",
                     loading:false
                 }
             },
             methods:{
-                
+
+                dateFormatter(date){
+                    
+                    let year = date.substring(0, 4)
+                    let month = date.substring(5, 7)
+                    let day = date.substring(8, 10)
+                    return day+"-"+month+"-"+year
+                },
+                changeOrder(){
+
+                    if(this.orderBy == "desc"){
+                        this.orderBy = "asc"
+                    }else{
+                        this.orderBy = "desc"
+                    }
+
+                },
                 fetch(page = 1){
 
                     this.page = page
 
-                    axios.get("{{ url('/blogs/fetch/') }}"+"/"+page)
+                    axios.get("{{ url('/blogs/fetch/') }}"+"/"+page+"?orderBy="+this.orderBy)
                     .then(res => {
 
                         this.blogs = res.data.blogs

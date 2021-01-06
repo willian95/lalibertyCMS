@@ -222,7 +222,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-photograph"></i>
-										<span class="menu-text">Works</span>
+										<span class="menu-text">Work & Fashion Merch</span>
 										<i class="menu-arrow"></i>
 									</a>
 									<div class="menu-submenu">
@@ -256,7 +256,7 @@ License: You must have a valid license purchased only from themeforest(the above
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-photograph"></i>
-										<span class="menu-text">Blogs</span>
+										<span class="menu-text">Blog</span>
 										<i class="menu-arrow"></i>
 									</a>
 									<div class="menu-submenu">

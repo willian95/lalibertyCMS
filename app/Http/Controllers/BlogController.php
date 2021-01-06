@@ -65,6 +65,7 @@ class BlogController extends Controller
             $blog->description = $request->description;
             $blog->image = url('/').'/images/blogs/'.$fileName;
             $blog->slug = $slug;
+            $blog->created_date = $request->createdDate;
             $blog->save();
 
             return response()->json(["success" => true, "msg" => "Blog creado"]);
@@ -75,14 +76,14 @@ class BlogController extends Controller
 
     }
 
-    function fetch($page){
+    function fetch($page,Request $request){
 
         try{
 
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
-           
-            $blogs = Blog::skip($skip)->take($dataAmount)->get();
+        
+            $blogs = Blog::skip($skip)->take($dataAmount)->orderBy("created_at", $request->orderBy)->get();
             $blogsCount = Blog::count();
 
             return response()->json(["success" => true, "blogs" => $blogs, "blogsCount" => $blogsCount, "dataAmount" => $dataAmount]);
@@ -143,6 +144,7 @@ class BlogController extends Controller
             if($request->get("image") != null){
                 $blog->image =  url('/').'/images/blogs/'.$fileName;
             }
+            $blog->created_date = $request->createdDate;
             $blog->update();
 
             return response()->json(["success" => true, "msg" => "Blog actualizado"]);

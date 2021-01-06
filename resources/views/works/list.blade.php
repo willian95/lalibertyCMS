@@ -99,6 +99,17 @@
                 <!--begin::Body-->
                 <div class="card-body">
                     <!--begin: Datatable-->
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Odernar por:</label>
+                                <select class="form-control" v-model="orderBy" @change="fetch()">
+                                    <option value="desc">Recientes</option>
+                                    <option value="asc">Antiguos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded" id="kt_datatable" style="">
                         <table class="table">
                             <thead>
@@ -109,6 +120,10 @@
 
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 250px;">Cliente</span>
+                                    </th>
+
+                                    <th class="datatable-cell datatable-cell-sort">
+                                        <span style="width: 250px;">Fecha de creación</span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort" style="width: 250px;">
@@ -126,6 +141,9 @@
                                     </td>
                                     <td>
                                         @{{ work.client_name }}
+                                    </td>
+                                    <td>
+                                        @{{ work.created_date }}
                                     </td>
                                     <td>
                                         <img :src="work.main_image" alt="" style="width: 100%;">
@@ -186,6 +204,7 @@
                     works:[],
                     pages:0,
                     page:1,
+                    orderBy:"desc",
                     loading:false
                 }
             },
@@ -195,7 +214,7 @@
 
                     this.page = page
 
-                    axios.get("{{ url('/works/fetch/') }}"+"/"+page)
+                    axios.get("{{ url('/works/fetch/') }}"+"/"+page+"?orderBy="+this.orderBy)
                     .then(res => {
 
                         this.works = res.data.works
@@ -203,6 +222,15 @@
 
                     })
                     
+
+                },
+                changeOrder(){
+
+                    if(this.orderBy == "desc"){
+                        this.orderBy = "asc"
+                    }else{
+                        this.orderBy = "desc"
+                    }
 
                 },
                 erase(id){

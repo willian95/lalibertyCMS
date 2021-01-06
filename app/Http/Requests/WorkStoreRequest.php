@@ -28,6 +28,7 @@ class WorkStoreRequest extends FormRequest
             "clientName" => "required",
             "description" => "required",
             "image" => "required",
+            "createdDate" => "required|date",
         ];
     }
 
@@ -36,8 +37,8 @@ class WorkStoreRequest extends FormRequest
         return [
             "title.required" => "Titulo es requerido",
             "clientName.required" => "Nombre del cliente es requerido",
-            "description.required" => "Descipción es requerida",
-            "image.required" => "Imagen es requerida",
+            "createdDate.required" => "Fecha de creación es requerida",
+            "createdDate.date" => "Debe ingresar una fecha válida",
         ];
     }
 }

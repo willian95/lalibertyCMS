@@ -24,14 +24,17 @@ class BlogUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            "title" => "required"
+            "title" => "required",
+            "createdDate" => "required|date",
         ];
     }
 
     public function messages()
     {
         return [
-            "title.required" => "Tiulo es requerido"
+            "title.required" => "Tiulo es requerido",
+            "createdDate.required" => "Fecha de creación es requerida",
+            "createdDate.date" => "Debe ingresar una fecha válida"
         ];
     }
 }

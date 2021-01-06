@@ -37,6 +37,14 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="title">Fecha de creación</label>
+                                <input type="date" class="form-control" v-model="createdDate">
+                                <small v-if="errors.hasOwnProperty('createdDate')">@{{ errors['createdDate'][0] }}</small>
+                            </div>
+                        </div>
+
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -87,9 +95,15 @@
                                 <tbody>
                                     <tr v-for="(workImage, index) in workImages">
                                         <td>@{{ index + 1 }}</td>
-                                        <td><img :src="workImage.image" style="width: 40%;"></td>
+                                        
                                         <td>
-                                            <button class="btn btn-danger" @click="deleteWorkImagen(index)"><i class="far fa-trash-alt"></i></button>
+                                            <img v-if="workImage.image.indexOf('image') >= 0" :src="workImage.image" style="width: 40%;">
+                                            <video style="width: 40%;" controls v-if="workImage.image.indexOf('video') >= 0">
+                                                <source :src="workImage.image" type="video/mp4">
+                                            </video>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" @click="deleteWorkImage(index)"><i class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -130,8 +144,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="type">Imagen</label>
-                                    <input type="file" class="form-control" ref="file" @change="onSecondaryImageChange" accept="image/*" style="overflow: hidden;">
+                                    <label for="type">Imagen o video</label>
+                                    <input type="file" class="form-control" ref="file" @change="onSecondaryImageChange" accept="image/*|video/*" style="overflow: hidden;">
                                     <img id="blah" :src="secondaryPreviewPicture" class="full-image" style="margin-top: 10px; width: 40%">
                                 </div>
                             </div>
@@ -166,6 +180,7 @@
                     imagePreview:"",
                     clientName:"",
                     title:"",
+                    createdDate:"",
                     isFashionMerch:false,
                     description:"",
                     action:"create",
@@ -186,7 +201,7 @@
 
                     if(this.workImages.length > 0){
                         this.loading = true
-                        axios.post("{{ url('/works/store') }}", {title:this.title, image: this.picture, workImages: this.workImages, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch}).then(res => {
+                        axios.post("{{ url('/works/store') }}", {title:this.title, image: this.picture, workImages: this.workImages, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate}).then(res => {
                             this.loading = false
                             if(res.data.success == true){
 

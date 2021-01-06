@@ -27,6 +27,7 @@ class WorkUpdateRequest extends FormRequest
             "title" => "required",
             "clientName" => "required",
             "description" => "required",
+            "createdDate" => "required|date",
         ];
     }
 
@@ -36,6 +37,8 @@ class WorkUpdateRequest extends FormRequest
             "title.required" => "Titulo es requerido",
             "clientName.required" => "Nombre del cliente es requerido",
             "description.required" => "Descipción es requerida",
+            "createdDate.required" => "Fecha de creación es requerida",
+            "createdDate.date" => "Debe ingresar una fecha válida"
         ];
     }
 }

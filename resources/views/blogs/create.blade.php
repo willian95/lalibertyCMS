@@ -102,6 +102,7 @@
                     title:"",
                     description:"",
                     errors:[],
+                    createdDate:"",
                     loading:false,
                 }
             },
@@ -122,7 +123,7 @@
                     }else{
 
                         this.loading = true
-                        axios.post("{{ url('/blogs/store') }}", {title:this.title, image: this.picture, description: this.description}).then(res => {
+                        axios.post("{{ url('/blogs/store') }}", {title:this.title, image: this.picture, description: this.description, createdDate: this.createdDate}).then(res => {
                         this.loading = false
                             if(res.data.success == true){
 
