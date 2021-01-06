@@ -25,8 +25,7 @@ class BlogStoreRequest extends FormRequest
     {
         return [
             "title" => "required",
-            "image" => "required",
-            "createdDate" => "required|date",
+            "image" => "required"
         ];
     }
 
@@ -35,8 +34,6 @@ class BlogStoreRequest extends FormRequest
         return [
             "title.required" => "Tiulo es requerido",
             "image.required" => "Imagen es requerida",
-            "createdDate.required" => "Fecha de creación es requerida",
-            "createdDate.date" => "Debe ingresar una fecha válida",
         ];
     }
 }

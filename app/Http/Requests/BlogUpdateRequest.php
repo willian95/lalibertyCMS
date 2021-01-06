@@ -25,7 +25,6 @@ class BlogUpdateRequest extends FormRequest
     {
         return [
             "title" => "required",
-            "createdDate" => "required|date",
         ];
     }
 
@@ -33,8 +32,6 @@ class BlogUpdateRequest extends FormRequest
     {
         return [
             "title.required" => "Tiulo es requerido",
-            "createdDate.required" => "Fecha de creación es requerida",
-            "createdDate.date" => "Debe ingresar una fecha válida"
         ];
     }
 }

@@ -29,16 +29,11 @@ class CategoryController extends Controller
 
             if(strpos($imageData, "svg+xml") > 0){
 
-                $data = explode( ',', $imageData);
-                $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
-                $ifp = fopen($fileName, 'wb' );
-                fwrite($ifp, base64_decode( $data[1] ) );
-                rename($fileName, 'images/brands/'.$fileName);
+                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
 
             }else{
 
-                $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-                Image::make($request->get('image'))->save(public_path('images/categories/').$fileName);
+                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
 
             }
 
@@ -103,16 +98,11 @@ class CategoryController extends Controller
     
                 if(strpos($imageData, "svg+xml") > 0){
     
-                    $data = explode( ',', $imageData);
-                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.'."svg";
-                    $ifp = fopen($fileName, 'wb' );
-                    fwrite($ifp, base64_decode( $data[1] ) );
-                    rename($fileName, 'images/brands/'.$fileName);
+                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
     
                 }else{
     
-                    $fileName = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-                    Image::make($request->get('image'))->save(public_path('images/categories/').$fileName);
+                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
     
                 }
     
