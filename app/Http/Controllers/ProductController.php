@@ -7,6 +7,7 @@ use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use App\Product;
 use App\ProductColorSize;
+use Cloudinary;
 
 use Illuminate\Http\Request;
 

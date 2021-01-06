@@ -9,6 +9,7 @@ use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use App\Work;
 use App\WorkImage;
+use Cloudinary;
 
 class WorkController extends Controller
 {

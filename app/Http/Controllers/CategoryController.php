@@ -8,6 +8,7 @@ use App\Http\Requests\CategoryUpdateRequest;
 use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use App\Category;
+use Cloudinary;
 
 class CategoryController extends Controller
 {
