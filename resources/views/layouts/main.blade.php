@@ -140,88 +140,10 @@ License: You must have a valid license purchased only from themeforest(the above
 						<div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
 							<!--begin::Menu Nav-->
 							<ul class="menu-nav">
-								<li class="menu-item" aria-haspopup="true">
-									<a href="{{ route('category') }}" class="menu-link">
-										<i class="menu-icon flaticon2-menu-2"></i>
-										<span class="menu-text">Categorías</span>
-									</a>
-								</li>
-
-								<li class="menu-item" aria-haspopup="true">
-									<a href="{{ route('size') }}" class="menu-link">
-										<i class="menu-icon flaticon-web"></i>
-										<span class="menu-text">Tamaños</span>
-									</a>
-								</li>
-
-								<li class="menu-item" aria-haspopup="true">
-									<a href="{{ route('color') }}" class="menu-link">
-										<i class="menu-icon flaticon-web"></i>
-										<span class="menu-text">Colores</span>
-									</a>
-								</li>
-
-								{{--<li class="menu-item" aria-haspopup="true">
-									<a href="{{ route('format') }}" class="menu-link">
-										<i class="menu-icon flaticon-web"></i>
-										<span class="menu-text">Formatos</span>
-									</a>
-								</li>--}}
-
-								<li class="menu-item" aria-haspopup="true">
-									<a href="{{ route('admin.email') }}" class="menu-link">
-										<i class="menu-icon flaticon-web"></i>
-										<span class="menu-text">Mails Administrativos</span>
-									</a>
-								</li>
-
-
-
-								<li class="menu-item" aria-haspopup="true">
-									<a href="{{ route('sales') }}" class="menu-link">
-										<i class="menu-icon flaticon-web"></i>
-										<span class="menu-text">Ventas</span>
-									</a>
-								</li>
-
 
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
-										<i class="menu-icon flaticon2-photograph"></i>
-										<span class="menu-text">Productos</span>
-										<i class="menu-arrow"></i>
-									</a>
-									<div class="menu-submenu">
-										<i class="menu-arrow"></i>
-										<ul class="menu-subnav">
-											<li class="menu-item menu-item-parent" aria-haspopup="true">
-												<span class="menu-link">
-													<span class="menu-text">Actions</span>
-												</span>
-											</li>
-											<li class="menu-item" aria-haspopup="true">
-												<a href="{{ route('product.create') }}" class="menu-link">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text">Crear</span>
-												</a>
-											</li>
-											<li class="menu-item" aria-haspopup="true">
-												<a href="{{ route('product.list') }}" class="menu-link">
-													<i class="menu-bullet menu-bullet-line">
-														<span></span>
-													</i>
-													<span class="menu-text">Listado</span>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</li>
-
-								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
-									<a href="javascript:;" class="menu-link menu-toggle">
-										<i class="menu-icon flaticon2-photograph"></i>
+										<i class="menu-icon flaticon2-pie-chart-2"></i>
 										<span class="menu-text">Work & Fashion Merch</span>
 										<i class="menu-arrow"></i>
 									</a>
@@ -255,7 +177,48 @@ License: You must have a valid license purchased only from themeforest(the above
 
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
-										<i class="menu-icon flaticon2-photograph"></i>
+										<i class="menu-icon flaticon2-tag"></i>
+										<span class="menu-text">Productos</span>
+										<i class="menu-arrow"></i>
+									</a>
+									<div class="menu-submenu">
+										<i class="menu-arrow"></i>
+										<ul class="menu-subnav">
+											<li class="menu-item menu-item-parent" aria-haspopup="true">
+												<span class="menu-link">
+													<span class="menu-text">Actions</span>
+												</span>
+											</li>
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ route('product.create') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text">Crear</span>
+												</a>
+											</li>
+											<li class="menu-item" aria-haspopup="true">
+												<a href="{{ route('product.list') }}" class="menu-link">
+													<i class="menu-bullet menu-bullet-line">
+														<span></span>
+													</i>
+													<span class="menu-text">Listado</span>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</li>
+
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('sales') }}" class="menu-link">
+										<i class="menu-icon flaticon2-shopping-cart-1"></i>
+										<span class="menu-text">Ventas</span>
+									</a>
+								</li>
+
+								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+									<a href="javascript:;" class="menu-link menu-toggle">
+										<i class="menu-icon flaticon2-sheet"></i>
 										<span class="menu-text">Blog</span>
 										<i class="menu-arrow"></i>
 									</a>
@@ -286,6 +249,54 @@ License: You must have a valid license purchased only from themeforest(the above
 										</ul>
 									</div>
 								</li>
+
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('admin.email') }}" class="menu-link">
+										<i class="menu-icon flaticon2-send"></i>
+										<span class="menu-text">Mails Administrativos</span>
+									</a>
+								</li>
+
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('category') }}" class="menu-link">
+										<i class="menu-icon flaticon2-menu-2"></i>
+										<span class="menu-text">Categorías</span>
+									</a>
+								</li>
+
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('size') }}" class="menu-link">
+										<i class="menu-icon flaticon2-arrow-1"></i>
+										<span class="menu-text">Tamaños</span>
+									</a>
+								</li>
+
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('color') }}" class="menu-link">
+										<i class="menu-icon flaticon-web"></i>
+										<span class="menu-text">Colores</span>
+									</a>
+								</li>
+
+								{{--<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('format') }}" class="menu-link">
+										<i class="menu-icon flaticon-web"></i>
+										<span class="menu-text">Formatos</span>
+									</a>
+								</li>--}}
+
+								
+
+
+
+								
+
+
+								
+
+								
+
+								
 
 								
 							</ul>
