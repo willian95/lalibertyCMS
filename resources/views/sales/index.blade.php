@@ -173,10 +173,16 @@
                                 <label><strong>Total</strong></label>
                                 <p>$ @{{ currencyFormatDE(shopping.total) }}</p>
                             </div>
-                            <div class="col-md-6" v-if="shopping.tracking != 0">
+                            <div class="col-md-6" v-if="shopping.tracking != null">
+                                <label><strong>Empresa de envíos</strong></label>
+                                <p>
+                                <a>@{{ shopping.shipping_provider }}</a>
+                                </p>
+                            </div>
+                            <div class="col-md-6" v-if="shopping.tracking != null">
                                 <label><strong>Tracking</strong></label>
                                 <p>
-                                <a :href="shopping.tracking_url">@{{ shopping.tracking }}</a>
+                                <a>@{{ shopping.tracking }}</a>
                                 </p>
                             </div>
                             <!--<div class="col-md-6">
@@ -206,15 +212,28 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-md-12" v-if="shopping.tracking == 0">
-                                <h3 class="text-center">Enviar tracking</h3>
-                                <div class="form-group">
-                                    <input class="form-control" v-model="trackingNumber">
+                            
+                            <div v-if="shopping.tracking == null">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 class="text-center">Empresa de envíos</h3>
+                                        <div class="form-group">
+                                            <input class="form-control" v-model="shippingProvider">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h3 class="text-center">Número de tracking</h3>
+                                        <div class="form-group">
+                                            <input class="form-control" v-model="trackingNumber">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12">
+                                        <p class="text-center">
+                                            <button class="btn btn-primary" v-if="shopping.guest_user" @click="sendTracking(shopping.guest_user.email, 'guest', shopping.id)">Enviar</button>
+                                        </p>
+                                    </div>
                                 </div>
-                                <p class="text-center">
-                                    <button class="btn btn-primary" v-if="shopping.user" @click="sendTracking(shopping.user.email, 'auth', shopping.id)">Enviar</button>
-                                    <button class="btn btn-primary" v-if="shopping.guest_user" @click="sendTracking(shopping.user.email, 'guest', shopping.id)">Enviar</button>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -242,6 +261,7 @@
                     pages:0,
                     page:1,
                     trackingNumber:"",
+                    shippingProvider:"",
                     loading:false,
                     showMenu:false
                 }
@@ -302,17 +322,17 @@
                 },
                 sendTracking(email, user, paymentId){
 
-                    if(this.trackingNumber == ""){
+                    if(this.trackingNumber == "" || this.shippingProvider == ""){
 
                         swal({
                             title:"Lo sentimos",
-                            text:"Debe agregar un tracking",
+                            text:"Debe agregar un número de tracking y una empresa de envíos",
                             icon: "error"
                         })
 
                     }else{
                         this.loading = true
-                        axios.post("{{ url('send/tracking') }}", {email: email, tracking: this.trackingNumber, user: user, paymentId: paymentId}).then(res => {
+                        axios.post("{{ url('send/tracking') }}", {email: email, tracking: this.trackingNumber, user: user, paymentId: paymentId, shippingProvider: this.shippingProvider}).then(res => {
                             this.loading=false
                             if(res.data.success == true){
 
@@ -323,6 +343,7 @@
                                 })
 
                                 this.trackingNumber = ""
+                                this.shippingProvider = ""
                                 window.location.reload()
                             }else{
 

@@ -67,30 +67,25 @@ class SaleController extends Controller
         return Excel::download(new SalesExport, 'ventas.csv');
     }
 
-    /*function sendTracking(Request $request){
+    function sendTracking(Request $request){
 
         try{
 
-            $products = ProductPurchase::where("payment_id", $request->paymentId)->with("productFormatSize", "productFormatSize.product", "productFormatSize.size")->has("productFormatSize")->get();
+            $products = ProductPurchase::where("payment_id", $request->paymentId)->with("productColorSize", "productColorSize.product", "productColorSize.color", "productColorSize.size")->has("productColorSize")->get();
 
             $payment = Payment::where("id", $request->paymentId)->first();
             $payment->tracking = $request->tracking;
+            $payment->shipping_provider = $request->shippingProvider;
             $payment->update();
 
-            $user = null;
-            if($request->user == 'auth'){
-                $user = User::where("email", $request->email)->first();
-            }else{
-                $user = GuestUser::where("email", $request->email)->first();
-            }
-
+            $user = GuestUser::where("email", $request->email)->first();
             $to_name = $user->name;
             $to_email = $user->email;
-            $data = ["user" => $user, "products" => $products, "tracking" => $request->tracking, "payment" => $payment];
+            $data = ["user" => $user, "products" => $products, "tracking" => $request->tracking, "payment" => $payment, "shippingProvider" =>$request->shippingProvider];
 
             \Mail::send("emails.tracking", $data, function($message) use ($to_name, $to_email) {
 
-                $message->to($to_email, $to_name)->subject("Order Shipped. Track your order!");
+                $message->to($to_email, $to_name)->subject("Orden enviada. Rastrea tu orden!");
                 $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
 
             });
@@ -101,7 +96,7 @@ class SaleController extends Controller
             return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
         }
 
-    }*/
+    }
 
 
 }
