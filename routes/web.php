@@ -93,6 +93,8 @@ Route::get("/blogs/edit/{id}", "BlogController@edit")->middleware("auth");
 
 route::get("test-email", function(){
 
+    dump(env("MAIL_USERNAME"), env("MAIL_PASSWORD"));
+
     $to_name = "Willian";
     $to_email = "rodriguezwillian95@gmail.com";
     $data = ["texto" => "test"];
