@@ -24,69 +24,83 @@ Route::get('/home', function () {
 Route::post("login", "LoginController@login");
 Route::get("logout", "LoginController@logout")->name("logout");
 
-Route::get("/category", "CategoryController@index")->name("category");
-Route::post("category/store", "CategoryController@store");
-Route::get("/category/fetch/{page}", "CategoryController@fetch");
-Route::post("/category/update", "CategoryController@update");
-Route::post("/category/delete", "CategoryController@delete");
-Route::get("/category/all", "CategoryController@all");
+Route::get("/category", "CategoryController@index")->name("category")->middleware("auth");
+Route::post("category/store", "CategoryController@store")->middleware("auth");
+Route::get("/category/fetch/{page}", "CategoryController@fetch")->middleware("auth");
+Route::post("/category/update", "CategoryController@update")->middleware("auth");
+Route::post("/category/delete", "CategoryController@delete")->middleware("auth");
+Route::get("/category/all", "CategoryController@all")->middleware("auth");
 
-Route::get("/size", "SizeController@index")->name("size");
-Route::post("/size/store", "SizeController@store");
-Route::get("/size/fetch/{page}", "SizeController@fetch");
-Route::post("/size/update", "SizeController@update");
-Route::post("/size/delete", "SizeController@delete");
-Route::get("/size/all", "SizeController@all");
+Route::get("/size", "SizeController@index")->name("size")->middleware("auth");
+Route::post("/size/store", "SizeController@store")->middleware("auth");
+Route::get("/size/fetch/{page}", "SizeController@fetch")->middleware("auth");
+Route::post("/size/update", "SizeController@update")->middleware("auth");
+Route::post("/size/delete", "SizeController@delete")->middleware("auth");
+Route::get("/size/all", "SizeController@all")->middleware("auth");
 
-Route::get("/color", "ColorController@index")->name("color");
-Route::post("/color/store", "ColorController@store");
-Route::get("/color/fetch/{page}", "ColorController@fetch");
-Route::post("/color/update", "ColorController@update");
-Route::post("/color/delete", "ColorController@delete");
-Route::get("/color/all", "ColorController@all");
+Route::get("/color", "ColorController@index")->name("color")->middleware("auth");
+Route::post("/color/store", "ColorController@store")->middleware("auth");
+Route::get("/color/fetch/{page}", "ColorController@fetch")->middleware("auth");
+Route::post("/color/update", "ColorController@update")->middleware("auth");
+Route::post("/color/delete", "ColorController@delete")->middleware("auth");
+Route::get("/color/all", "ColorController@all")->middleware("auth");
 
-Route::get("/products/create", "ProductController@create")->name("product.create");
-Route::get("/products/list", "ProductController@list")->name("product.list");
-Route::post("/products/store", "ProductController@store");
-Route::post("/products/delete", "ProductController@delete");
-Route::post("/products/update", "ProductController@update");
-Route::get("/products/fetch/{page}", "ProductController@fetch");
-Route::get("/products/edit/{id}", "ProductController@edit");
-Route::get("/products/excel", "ProductController@excelExport");
-Route::get("/products/csv", "ProductController@csvExport");
+Route::get("/products/create", "ProductController@create")->name("product.create")->middleware("auth");
+Route::get("/products/list", "ProductController@list")->name("product.list")->middleware("auth");
+Route::post("/products/store", "ProductController@store")->middleware("auth");
+Route::post("/products/delete", "ProductController@delete")->middleware("auth");
+Route::post("/products/update", "ProductController@update")->middleware("auth");
+Route::get("/products/fetch/{page}", "ProductController@fetch")->middleware("auth");
+Route::get("/products/edit/{id}", "ProductController@edit")->middleware("auth");
+Route::get("/products/excel", "ProductController@excelExport")->middleware("auth");
+Route::get("/products/csv", "ProductController@csvExport")->middleware("auth");
 
-Route::get("/blogs/create", "BlogController@create")->name("blog.create");
-Route::get("/blogs/list", "BlogController@list")->name("blog.list");
-Route::post("/blogs/store", "BlogController@store");
-Route::post("/blogs/delete", "BlogController@delete");
-Route::post("/blogs/update", "BlogController@update");
-Route::get("/blogs/fetch/{page}", "BlogController@fetch");
-Route::get("/blogs/edit/{id}", "BlogController@edit");
+Route::get("/blogs/create", "BlogController@create")->name("blog.create")->middleware("auth");
+Route::get("/blogs/list", "BlogController@list")->name("blog.list")->middleware("auth");
+Route::post("/blogs/store", "BlogController@store")->middleware("auth");
+Route::post("/blogs/delete", "BlogController@delete")->middleware("auth");
+Route::post("/blogs/update", "BlogController@update")->middleware("auth");
+Route::get("/blogs/fetch/{page}", "BlogController@fetch")->middleware("auth");
+Route::get("/blogs/edit/{id}", "BlogController@edit")->middleware("auth");
 
-Route::get("/sales", "SaleController@index")->name("sales");
-Route::get("/sales/fetch/{fetch}", "SaleController@fetch");
-Route::get("/sales/excel", "SaleController@excelExport");
-Route::get("/sales/csv", "SaleController@csvExport");
-Route::post("send/tracking", "SaleController@sendTracking");
+Route::get("/sales", "SaleController@index")->name("sales")->middleware("auth");
+Route::get("/sales/fetch/{fetch}", "SaleController@fetch")->middleware("auth");
+Route::get("/sales/excel", "SaleController@excelExport")->middleware("auth");
+Route::get("/sales/csv", "SaleController@csvExport")->middleware("auth");
+Route::post("send/tracking", "SaleController@sendTracking")->middleware("auth");
 
-Route::get("/admin-email", "AdminMailController@index")->name("admin.email");
-Route::post("admin-email/store", "AdminMailController@store");
-Route::get("/admin-email/fetch", "AdminMailController@fetch");
-Route::post("/admin-email/update", "AdminMailController@update");
-Route::post("/admin-email/delete", "AdminMailController@delete");
+Route::get("/admin-email", "AdminMailController@index")->name("admin.email")->middleware("auth");
+Route::post("admin-email/store", "AdminMailController@store")->middleware("auth");
+Route::get("/admin-email/fetch", "AdminMailController@fetch")->middleware("auth");
+Route::post("/admin-email/update", "AdminMailController@update")->middleware("auth");
+Route::post("/admin-email/delete", "AdminMailController@delete")->middleware("auth");
 
-Route::get("/works/create", "WorkController@create")->name("work.create");
-Route::get("/works/list", "WorkController@list")->name("work.list");
-Route::post("/works/store", "WorkController@store");
-Route::post("/works/delete", "WorkController@delete");
-Route::post("/works/update", "WorkController@update");
-Route::get("/works/fetch/{page}", "WorkController@fetch");
-Route::get("/works/edit/{id}", "WorkController@edit");
+Route::get("/works/create", "WorkController@create")->name("work.create")->middleware("auth");
+Route::get("/works/list", "WorkController@list")->name("work.list")->middleware("auth");
+Route::post("/works/store", "WorkController@store")->middleware("auth");
+Route::post("/works/delete", "WorkController@delete")->middleware("auth");
+Route::post("/works/update", "WorkController@update")->middleware("auth");
+Route::get("/works/fetch/{page}", "WorkController@fetch")->middleware("auth");
+Route::get("/works/edit/{id}", "WorkController@edit")->middleware("auth");
 
-Route::get("/blogs/create", "BlogController@create")->name("blog.create");
-Route::get("/blogs/list", "BlogController@list")->name("blog.list");
-Route::post("/blogs/store", "BlogController@store");
-Route::post("/blogs/delete", "BlogController@delete");
-Route::post("/blogs/update", "BlogController@update");
-Route::get("/blogs/fetch/{page}", "BlogController@fetch");
-Route::get("/blogs/edit/{id}", "BlogController@edit");
+Route::get("/blogs/create", "BlogController@create")->name("blog.create")->middleware("auth");
+Route::get("/blogs/list", "BlogController@list")->name("blog.list")->middleware("auth");
+Route::post("/blogs/store", "BlogController@store")->middleware("auth");
+Route::post("/blogs/delete", "BlogController@delete")->middleware("auth");
+Route::post("/blogs/update", "BlogController@update")->middleware("auth");
+Route::get("/blogs/fetch/{page}", "BlogController@fetch")->middleware("auth");
+Route::get("/blogs/edit/{id}", "BlogController@edit")->middleware("auth");
+
+route::get("test-email", function(){
+
+    $to_name = "Willian";
+    $to_email = "rodriguezwillian95@gmail.com";
+    $data = ["texto" => "test"];
+    Mail::send("emails.test", $data, function($message) use ($to_name, $to_email) {
+
+        $message->to($to_email, $to_name)->subject("Orden enviada. Rastrea tu orden!");
+        $message->from(env("MAIL_FROM_ADDRESS"), env("MAIL_FROM_NAME"));
+
+    });
+
+});
