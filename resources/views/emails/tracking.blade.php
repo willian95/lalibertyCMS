@@ -97,7 +97,7 @@ td .es-button-border-2:hover {
                   <td width="540" align="center" valign="top" style="padding:0;Margin:0;"> 
                    <table cellpadding="0" cellspacing="0" width="100%" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-position:left bottom;" role="presentation"> 
                      <tr style="border-collapse:collapse;"> 
-                      <td align="center" style="padding:0;Margin:0;font-size:0px;"><img class="adapt-img" src="https://www.aidacaceresart.com/assets/img/logo-blue.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;object-fit: contain;" width="200" height="133"></td> 
+                      <td align="center" style="padding:0;Margin:0;font-size:0px;"><img class="adapt-img" src="https://www.laliberty.com.co/assets/img/logo.png" alt style="display:block;border:0;outline:none;text-decoration:none;-ms-interpolation-mode:bicubic;object-fit: contain;" width="200" height="133"></td> 
                      </tr> 
                      <tr style="border-collapse:collapse;"> 
                       <td align="center" style="padding:0;Margin:0;"><h1 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:tahoma, verdana, segoe, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#0c4572;">Sigue tu orden copiando este # de seguimiento de {{ $shippingProvider }} </h1></td> 
@@ -106,7 +106,7 @@ td .es-button-border-2:hover {
                         <td>Name: {{ $user->name }}</td>
                       </tr>
                       <tr>
-                      <td>Total: $ {{ number_format($payment->total_products, 0, ",", ".") }}</td>
+                      <td>Total: $ {{ number_format($payment->total, 0, ",", ".") }}</td>
                       </tr>
                       <tr>
                         <td>Email: {{ $user->email }}</td>
