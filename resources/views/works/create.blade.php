@@ -370,6 +370,9 @@
                     ).then(res => {
                         this.workImages.forEach((data, index) => {
                             
+                            console.log("test", data, res.data)
+                            console.log("name", data.originalName.toLowerCase(), res.data.original_filename+"."+res.data.format.toLowerCase())
+
                             if(data.originalName.toLowerCase() == res.data.original_filename+"."+res.data.format.toLowerCase()){
                                 this.workImages[index].status = "listo";
                                 this.workImages[index].finalName = res.data.secure_url
