@@ -35,7 +35,7 @@ class WorkStoreRequest extends FormRequest
     public function messages()
     {
         return [
-            "title.required" => "Titulo es requerido",
+            "title.required" => "Título es requerido",
             "clientName.required" => "Nombre del cliente es requerido",
             "createdDate.required" => "Fecha de creación es requerida",
             "createdDate.date" => "Debe ingresar una fecha válida",

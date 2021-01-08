@@ -54,7 +54,7 @@ class ProductController extends Controller
 
         }catch(\Exception $e){
 
-            return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+            return response()->json(["success" => false, "msg" => "Hubo un problema con la imágen ", "err" => $e->getMessage(), "ln" => $e->getLine()]);
 
         }
 
@@ -181,7 +181,7 @@ class ProductController extends Controller
     
             }catch(\Exception $e){
     
-                return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+                return response()->json(["success" => false, "msg" => "Hubo un problema con la imágen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
     
             }
 

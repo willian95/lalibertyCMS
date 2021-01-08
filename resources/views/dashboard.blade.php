@@ -79,7 +79,7 @@
                                             </svg>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <a href="#" class="text-info font-weight-bold font-size-h6">Works: {{ App\Work::count() }}</a>
+                                        <a href="#" class="text-info font-weight-bold font-size-h6">Work/Fashion Merch: {{ App\Work::count() }}</a>
                                     </div>
 
                                     <div class="col bg-white px-6 py-8 rounded-xl mr-7">
@@ -94,7 +94,7 @@
                                             </svg>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <a href="#" class="text-danger font-weight-bold font-size-h6 mt-2">Blogs: {{ App\Blog::count() }}</a>
+                                        <a href="#" class="text-danger font-weight-bold font-size-h6 mt-2">Blog: {{ App\Blog::count() }}</a>
                                     </div>
                                    
                                 </div>

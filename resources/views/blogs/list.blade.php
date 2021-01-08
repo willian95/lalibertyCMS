@@ -11,7 +11,7 @@
                 <!--begin::Header-->
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
-                        <h3 class="card-label">Blogs
+                        <h3 class="card-label">Blog
                     </div>
                     <div class="card-toolbar">
                         <!--begin::Dropdown-->
@@ -115,11 +115,11 @@
                             <thead>
                                 <tr >
                                     <th class="datatable-cell datatable-cell-sort">
-                                        <span style="width: 250px;">Titulo</span>
+                                        <span style="width: 250px;">Título</span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort" style="width: 250px;">
-                                        <span style="width: 130px;">Imagen</span>
+                                        <span style="width: 130px;">Imágen</span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 250px;">Fecha de creación</span>

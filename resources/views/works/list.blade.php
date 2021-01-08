@@ -91,7 +91,7 @@
                                 </g>
                             </svg>
                             <!--end::Svg Icon-->
-                        </span>Nuevo work</a>
+                        </span>Crear Work/Fashion Merch</a>
                         <!--end::Button-->
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             <thead>
                                 <tr >
                                     <th class="datatable-cell datatable-cell-sort">
-                                        <span style="width: 250px;">Titulo</span>
+                                        <span style="width: 250px;">Título</span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort">
@@ -127,7 +127,7 @@
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort" style="width: 250px;">
-                                        <span style="width: 130px;">Imagen</span>
+                                        <span style="width: 130px;">Imágen</span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort">
                                         <span style="width: 130px;">Acciones</span>

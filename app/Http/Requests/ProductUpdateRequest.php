@@ -34,7 +34,7 @@ class ProductUpdateRequest extends FormRequest
 
         return[
 
-            "name.required" => "Titulo del producto es requerido",
+            "name.required" => "Título del producto es requerido",
             "category.required" => "Categoría del producto es requerido",
             "category.integer" => "Categoría seleccionada no es válida",
             "category.exists" => "Categoría seleccionada no es válida",

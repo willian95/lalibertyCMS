@@ -34,7 +34,7 @@ class CategoryStoreRequest extends FormRequest
     {
         return [
             "name.required" => "Nombre es requerido",
-            "image.required" => "imagen es requerida"
+            "image.required" => "Imágen es requerida"
         ];
     }
 

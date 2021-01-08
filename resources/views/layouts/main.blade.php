@@ -365,7 +365,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<!--begin::Copyright-->
 							<div class="text-dark text-center" style="width: 100%;">
 								<span class="text-muted font-weight-bold mr-2">2020 - 2021©</span>
-								<a href="h#" target="_blank" class="text-dark-75 text-hover-primary">Laliberty Copyright</a>
+								<a href="h#" target="_blank" class="text-dark-75 text-hover-primary">LaLiberty Copyright</a>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Nav-->

@@ -35,11 +35,11 @@ class ProductStoreRequest extends FormRequest
 
         return[
 
-            "name.required" => "Titulo del producto es requerido",
+            "name.required" => "Título del producto es requerido",
             "category.required" => "Categoría del producto es requerido",
             "category.integer" => "Categoría seleccionada no es válida",
             "category.exists" => "Categoría seleccionada no es válida",
-            "image.required" => "Imagen del producto es requerido",
+            "image.required" => "Imágen del producto es requerido",
             "description.required" => "Descripción es requerida",
 
         ];

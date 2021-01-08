@@ -34,7 +34,7 @@ class WorkUpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            "title.required" => "Titulo es requerido",
+            "title.required" => "Título es requerido",
             "clientName.required" => "Nombre del cliente es requerido",
             "description.required" => "Descipción es requerida",
             "createdDate.required" => "Fecha de creación es requerida",

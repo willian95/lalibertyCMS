@@ -23,7 +23,7 @@
                                 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="name">Titulo</label>
+                                <label for="name">Título</label>
                                 <input type="text" class="form-control" v-model="title">
                                 <small v-if="errors.hasOwnProperty('title')">@{{ errors['title'][0] }}</small>
                             </div>
@@ -47,7 +47,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="image">Imagen</label>
+                                <label for="image">Imágen</label>
                                 <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
 
                                 <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
@@ -87,7 +87,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Imagen</th>
+                                        <th>Imágen</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -149,7 +149,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="type">Imagen o video</label>
+                                    <label for="type">Imágen o video</label>
                                     <input type="file" class="form-control" ref="file" @change="onSecondaryImageChange" accept="image/*|video/*" style="overflow: hidden;">
                                     <img id="blah" :src="secondaryPreviewPicture" class="full-image" style="margin-top: 10px; width: 40%">
                                 </div>
@@ -235,7 +235,7 @@
 
                         swal({
                             title: "Oops!",
-                            text: "Debe añadir imagenes secundarias para continuar!",
+                            text: "Debe añadir contenido secundario para continuar!",
                             icon: "warning"
                         })
 

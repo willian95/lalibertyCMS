@@ -33,7 +33,7 @@ class BlogStoreRequest extends FormRequest
     {
         return [
             "title.required" => "Tiulo es requerido",
-            "image.required" => "Imagen es requerida",
+            "image.required" => "Imágen es requerida",
         ];
     }
 }

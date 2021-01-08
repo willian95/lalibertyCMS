@@ -112,7 +112,7 @@
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort">
-                                        <span>Imagen</span>
+                                        <span>Imágen</span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort" style="width: 170px;">

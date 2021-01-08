@@ -101,7 +101,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Imagen</th>
+                                        <th>Imágen</th>
                                         <th>Progreso</th>
                                         <th>Acción</th>
                                     </tr>

@@ -23,7 +23,7 @@
                                 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="name">Titulo</label>
+                                <label for="name">Título</label>
                                 <input type="text" class="form-control" v-model="name">
                                 <small v-if="errors.hasOwnProperty('name')">@{{ errors['name'][0] }}</small>
                             </div>
@@ -47,7 +47,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="image">Imagen</label>
+                                <label for="image">Imágen</label>
                                 <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
 
                                 <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
@@ -137,7 +137,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type">Imagen</label>
+                            <label for="type">Imaáen</label>
                             <input type="file" class="form-control" ref="file" @change="onImageCategoryChange" accept="image/*">
                             <small v-if="categoryErrors.hasOwnProperty('image')">@{{ categoryErrors['image'][0] }}</small>
 
