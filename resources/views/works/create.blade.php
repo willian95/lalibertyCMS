@@ -41,7 +41,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="title">Fecha de creación</label>
-                                        <input type="date" class="form-control" v-model="createdDate" name="createdDate">>
+                                        <input type="date" class="form-control" v-model="createdDate" name="createdDate">
                                         <small v-if="errors.hasOwnProperty('createdDate')">@{{ errors['createdDate'][0] }}</small>
                                     </div>
                                 </div>
