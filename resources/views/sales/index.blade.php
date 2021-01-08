@@ -201,6 +201,7 @@
                                             <th>Precio</th>
                                         
                                             <th>Tamaño</th>
+                                            <th>Color</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -208,6 +209,7 @@
                                             <td>@{{ shoppingPurchase.product_color_size.product.name }}</td>
                                             <td>$ @{{ currencyFormatDE(shoppingPurchase.price) }}</td>
                                             <td>@{{ shoppingPurchase.product_color_size.size.size }}</td>
+                                            <td>@{{ shoppingPurchase.product_color_size.color.name }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
