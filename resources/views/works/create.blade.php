@@ -369,7 +369,7 @@
                         config                        
                     ).then(res => {
                         this.workImages.forEach((data, index) => {
-
+                            console.log(data, res.data)
                             if(data.originalName == res.data.original_filename+"."+res.data.format){
                                 this.workImages[index].status = "listo";
                                 this.workImages[index].finalName = res.data.secure_url
