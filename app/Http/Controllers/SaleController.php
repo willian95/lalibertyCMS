@@ -81,7 +81,7 @@ class SaleController extends Controller
             $user = GuestUser::where("email", $request->email)->first();
             $to_name = $user->name;
             $to_email = $user->email;
-            $data = ["user" => $user, "products" => $products, "tracking" => $request->tracking, "payment" => $payment, "shippingProvider" =>$request->shippingProvider];
+            $data = ["user" => $user, "products" => $products, "tracking" => $request->tracking, "payment" => $payment, "shippingProvider" =>$request->shippingProvider, "tracking" => $payment->tracking];
 
             \Mail::send("emails.tracking", $data, function($message) use ($to_name, $to_email) {
 

@@ -1,7 +1,7 @@
 @extends("layouts.main")
 
 @section("content")
-
+    @cloudinaryJS
     <div class="d-flex flex-column-fluid" id="dev-products">
         <div class="loader-cover-custom" v-if="loading == true">
 			<div class="loader-custom"></div>
@@ -19,61 +19,71 @@
                 <!--end::Header-->
                 <!--begin::Body-->
                 <div class="card-body">
-                    <div class="row">
-                                
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="title">Titulo</label>
-                                <input type="text" class="form-control" v-model="title">
-                                <small v-if="errors.hasOwnProperty('title')">@{{ errors['title'][0] }}</small>
-                            </div>
+                    
+                        <div class="row">
+                                    
+                            
+                           
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="title">Titulo</label>
+                                        <input type="text" class="form-control" v-model="title" name="title">
+                                        <small v-if="errors.hasOwnProperty('title')">@{{ errors['title'][0] }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="title">Nombre del cliente</label>
+                                        <input type="text" class="form-control" v-model="clientName" name="clientName">
+                                        <small v-if="errors.hasOwnProperty('clientName')">@{{ errors['clientName'][0] }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="title">Fecha de creación</label>
+                                        <input type="date" class="form-control" v-model="createdDate" name="createdDate">>
+                                        <small v-if="errors.hasOwnProperty('createdDate')">@{{ errors['createdDate'][0] }}</small>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="image">Imagen</label>
+                                        <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;" name="image">
+
+                                        <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
+
+                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${imageProgress}%`}">
+                                                @{{ imageProgress }}%
+                                            </div>
+                                        <small v-if="errors.hasOwnProperty('image')">@{{ errors['image'][0] }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="description">Descripción</label>
+                                        <textarea v-model="description" id="description" class="form-control" rows="3" name="description"></textarea>
+                                        <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" style="padding-top: 20px;">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="defaultCheck1" v-model="isFashionMerch" name="isFashionMerch">
+                                        <label class="form-check-label" for="defaultCheck1">
+                                            Activar como Fashion Merch
+                                        </label>
+                                    </div>
+                                </div>
+                          
+                            
+
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="title">Nombre del cliente</label>
-                                <input type="text" class="form-control" v-model="clientName">
-                                <small v-if="errors.hasOwnProperty('clientName')">@{{ errors['clientName'][0] }}</small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="title">Fecha de creación</label>
-                                <input type="date" class="form-control" v-model="createdDate">
-                                <small v-if="errors.hasOwnProperty('createdDate')">@{{ errors['createdDate'][0] }}</small>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="image">Imagen</label>
-                                <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
-
-                                <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
-                                <small v-if="errors.hasOwnProperty('image')">@{{ errors['image'][0] }}</small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="description">Descripción</label>
-                                <textarea v-model="description" id="description" class="form-control" rows="3"></textarea>
-                                <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4" style="padding-top: 20px;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="defaultCheck1" v-model="isFashionMerch">
-                                <label class="form-check-label" for="defaultCheck1">
-                                    Activar como Fashion Merch
-                                </label>
-                            </div>
-                        </div>
-
-                    </div>
+                   
                     <div class="row">
                         <div class="col-12">
                             <h3 class="text-center">Imagenes secundarias <button @click="create()" class="btn btn-success" data-toggle="modal" data-target="#presentationModal">+</button></h3>
@@ -89,6 +99,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Imagen</th>
+                                        <th>Progreso</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -103,6 +114,12 @@
                                             </video>
                                         </td>
                                         <td>
+                                            
+                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${workImage.progress}%`}">
+                                                @{{ workImage.progress }}%
+                                            </div>
+                                        </td>
+                                        <td>
                                             <button class="btn btn-danger" @click="deleteWorkImage(index)"><i class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
@@ -110,15 +127,16 @@
                             </table>
 
                         </div>
-                    </div>
 
-                    <div class="row">
                         <div class="col-12">
                             <p class="text-center">
                                 <button class="btn btn-success" @click="store()">Crear</button>
                             </p>
                         </div>
                     </div>
+
+                    
+                    
 
 
                 </div>
@@ -147,6 +165,7 @@
                                     <label for="type">Imagen o video</label>
                                     <input type="file" class="form-control" ref="file" @change="onSecondaryImageChange" accept="image/*|video/*" style="overflow: hidden;">
                                     <img id="blah" :src="secondaryPreviewPicture" class="full-image" style="margin-top: 10px; width: 40%">
+
                                 </div>
                             </div>
 
@@ -175,7 +194,10 @@
             el: '#dev-products',
             data(){
                 return{
+                    cloudinaryAPI:"https://api.cloudinary.com/v1_1/laliberty/upload",
+                    cloudinaryPreset:"ml_default",
                     workImages:[],
+                    imagesToUpload:[],
                     picture:"",
                     imagePreview:"",
                     clientName:"",
@@ -188,6 +210,13 @@
                     secondaryPreviewPicture:"",
                     errors:[],
                     loading:false,
+                    file:"",
+                    fileType:"",
+                    fileName:"",
+                    pictureOriginalName:"",
+                    pictureStatus:"",
+                    finalPictureName:"",
+                    imageProgress:0
                 }
             },
             methods:{
@@ -200,29 +229,50 @@
                 store(){
 
                     if(this.workImages.length > 0){
-                        this.loading = true
-                        axios.post("{{ url('/works/store') }}", {title:this.title, image: this.picture, workImages: this.workImages, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate}).then(res => {
-                            this.loading = false
-                            if(res.data.success == true){
+                        
+                        var completeUploading = true
 
-                                swal({
-                                    title: "Excelente!",
-                                    text: "Work creado!",
-                                    icon: "success"
-                                }).then(function() {
-                                    window.location.href = "{{ url('/works/list') }}";
-                                });
-                                
-
-                            }else{
-                               
-                                alert(res.data.msg)
+                        this.workImages.forEach((data) => {
+                            if(data.status == 'subiendo'){
+                                completeUploading = false
                             }
+                        })
+                        
+                        if(completeUploading && this.pictureStatus == "listo"){
+                            this.loading = true
+
+                            this.workImages.forEach((data) => {
+                                this.imagesToUpload.push({type:data.type, finalName:data.finalName})
+                            })
+ 
+                            axios.post("{{ url('/works/store') }}", {title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate}).then(res => {
+                                this.loading = false
+                                if(res.data.success == true){
+
+                                    swal({
+                                        title: "Excelente!",
+                                        text: "Work creado!",
+                                        icon: "success"
+                                    }).then(function() {
+                                        window.location.href = "{{ url('/works/list') }}";
+                                    });
+                                    
+
+                                }else{
+                                
+                                    alert(res.data.msg)
+                                }
 
                             }).catch(err => {
                                 this.loading = false
                                 this.errors = err.response.data.errors
                             })
+                        }else{
+                            swal({
+                                text:"Aún hay imágenes cargandose",
+                                icon:"warning"
+                            })
+                        }
                     
                     }else{
 
@@ -246,6 +296,8 @@
                     this.createImage(files[0]);
                 },
                 createImage(file) {
+                    this.file = file
+                    this.uploadMainImage()
                     let reader = new FileReader();
                     let vm = this;
                     reader.onload = (e) => {
@@ -263,6 +315,11 @@
                     this.createSecondaryImage(files[0]);
                 },
                 createSecondaryImage(file) {
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+                    
                     let reader = new FileReader();
                     let vm = this;
                     reader.onload = (e) => {
@@ -270,10 +327,96 @@
                     };
                     reader.readAsDataURL(file);
                 },
+                uploadSecondaryImage(){
+
+                    let formData = new FormData()
+                    formData.append("file", this.file)
+                    formData.append("upload_preset", this.cloudinaryPreset)
+
+                    var _this = this
+                    var fileName = this.fileName
+                    
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                        
+                            if(_this.workImages.length > 0){
+
+                                _this.workImages.forEach((data,index) => {
+                                   if(data.originalName == fileName){
+                                    _this.workImages[index].progress = progressPercent
+                                   }
+
+                                })
+
+                            }
+                            
+                        }
+                    }
+
+                    axios.post(
+                        this.cloudinaryAPI,
+                        formData,
+                        config                        
+                    ).then(res => {
+                        this.workImages.forEach((data, index) => {
+
+                            if(data.originalName == res.data.original_filename+"."+res.data.format){
+                                this.workImages[index].status = "Listo";
+                                this.workImages[index].finalName = res.data.secure_url
+                            }
+
+                        })
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+                },
+
+                uploadMainImage(){
+                    this.imageProgress = 0;
+                    let formData = new FormData()
+                    formData.append("file", this.file)
+                    formData.append("upload_preset", this.cloudinaryPreset)
+
+                    var _this = this
+                    var fileName = this.fileName
+                    this.pictureStatus = "subiendo";
+
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                        
+                            _this.imageProgress = progressPercent
+                            
+                            
+                        }
+                    }
+
+                    axios.post(
+                        this.cloudinaryAPI,
+                        formData,
+                        config                        
+                    ).then(res => {
+                        
+                        this.pictureStatus = "listo";
+                        this.finalPictureName = res.data.secure_url
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+                },
                 addProductFormatSizes(){
 
                     if(this.secondaryPicture != null){
-                        this.workImages.push({image: this.secondaryPicture})
+                        this.uploadSecondaryImage()
+                        this.workImages.push({image: this.secondaryPicture, status: "subiendo", type:this.fileType, originalName:this.fileName, finalName:"", progress:0})
 
                         this.secondaryPicture = ""
                         this.secondaryPreviewPicture = ""

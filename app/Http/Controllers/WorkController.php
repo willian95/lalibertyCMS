@@ -26,33 +26,6 @@ class WorkController extends Controller
     function store(WorkStoreRequest $request){
         ini_set('max_execution_time', 0);
 
-        try{
-
-            $imageData = $request->get('image');
-            //return response()->json($imageData);
-            if(strpos($imageData, "svg+xml") > 0){
-
-                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-
-            }
-            else if(strpos($imageData, "gif") > 0){
-
-                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-
-            }
-            else{
-
-                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-
-            }
-            
-
-        }catch(\Exception $e){
-
-            return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-
-        }
-
 
         try{
 
@@ -69,7 +42,7 @@ class WorkController extends Controller
             $work->title = $request->title;
             $work->client_name = $request->clientName;
             $work->description = $sanitizedDescription;
-            $work->main_image = $fileName;
+            $work->main_image = $request->image;
             $work->slug = $slug;
             $work->is_fashion_merch = $request->isFashionMerch;
             $work->created_date = $request->createdDate;
@@ -77,35 +50,10 @@ class WorkController extends Controller
 
             foreach($request->workImages as $workImage){
 
-                $isVideo = false;
-                $imageData = $workImage["image"];
-                
-                if(explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[0] == "video"){
-                    $isVideo = true;
-                    $fileName=Cloudinary::uploadVideo($request->get('image'))->getSecurePath();
-                }
-                else if(strpos($imageData, "svg+xml") > 0){
-
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }
-                else if(strpos($imageData, "gif") > 0){
-
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }
-                else{  
-                   
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }
-
                 $image = new WorkImage;
                 $image->work_id = $work->id;
-                $image->image = $fileName;
-                if($isVideo == true){
-                    $image->file_type = "video";
-                }
+                $image->image = $workImage['finalName'];
+                $image->file_type = $workImage['type'];
                 $image->save();
 
             }
