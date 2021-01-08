@@ -340,11 +340,15 @@
                                     title:"Genial",
                                     text:res.data.msg,
                                     icon: "success"
+                                }).then(res => {
+
+                                    this.trackingNumber = ""
+                                    this.shippingProvider = ""
+                                    window.location.reload()
+
                                 })
 
-                                this.trackingNumber = ""
-                                this.shippingProvider = ""
-                                window.location.reload()
+                                
                             }else{
 
                                 swal({

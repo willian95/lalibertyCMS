@@ -87,7 +87,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
 			<!--begin::Logo-->
 			<a href="{{ url('/') }}">
-				<img alt="Logo" class="w-45px" src="https://www.laliberty.com.co/assets/img/logo.png" style="filter: invert(1);" />
+				<img alt="Logo" class="w-45px" src="https://www.laliberty.com.co/assets/img/logo1.png" style="filter: invert(1);" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -130,7 +130,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					<div class="brand flex-column-auto" id="kt_brand">
 						<!--begin::Logo-->
 						<a href="{{ url('/') }}">
-							<img alt="Logo" src="https://www.laliberty.com.co/assets/img/logo.png" style="filter: invert(1); width: 100px;" />
+							<img alt="Logo" src="https://www.laliberty.com.co/assets/img/logo1.png" style="filter: invert(1); width: 100px;" />
 						</a>
 					</div>
 					<!--end::Brand-->

@@ -56,9 +56,14 @@
 
                                         <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
 
-                                        <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${imageProgress}%`}">
+                                        <div v-if="pictureStatus == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${imageProgress}%`}">
                                                 @{{ imageProgress }}%
                                             </div>
+                                        
+                                        <p v-if="pictureStatus == 'subiendo' && imageProgress < 100">Subiendo</p>
+                                        <p v-if="pictureStatus == 'subiendo' && imageProgress == 100">Espere un momento</p>
+                                        <p v-if="pictureStatus == 'listo' && imageProgress == 100">Imagen lista</p>
+
                                         <small v-if="errors.hasOwnProperty('image')">@{{ errors['image'][0] }}</small>
                                     </div>
                                 </div>
@@ -115,9 +120,13 @@
                                         </td>
                                         <td>
                                             
-                                            <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${workImage.progress}%`}">
+                                            <div v-if="workImage.status == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${workImage.progress}%`}">
                                                 @{{ workImage.progress }}%
                                             </div>
+                                           
+                                            <p v-if="workImage.status == 'subiendo' && workImage.progress < 100">Subiendo</p>
+                                            <p v-if="workImage.status == 'subiendo' && workImage.progress == 100">Espere un momento</p>
+                                            <p v-if="workImage.status == 'listo' && workImage.progress == 100">Imagen lista</p>
                                         </td>
                                         <td>
                                             <button class="btn btn-danger" @click="deleteWorkImage(index)"><i class="far fa-trash-alt"></i></button>
@@ -364,7 +373,7 @@
                         this.workImages.forEach((data, index) => {
 
                             if(data.originalName == res.data.original_filename+"."+res.data.format){
-                                this.workImages[index].status = "Listo";
+                                this.workImages[index].status = "listo";
                                 this.workImages[index].finalName = res.data.secure_url
                             }
 
