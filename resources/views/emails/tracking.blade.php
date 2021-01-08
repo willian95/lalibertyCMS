@@ -102,7 +102,7 @@ td .es-button-border-2:hover {
                      <tr style="border-collapse:collapse;"> 
                       <td align="center" style="padding:0;Margin:0;"><h1 style="Margin:0;line-height:24px;mso-line-height-rule:exactly;font-family:tahoma, verdana, segoe, sans-serif;font-size:20px;font-style:normal;font-weight:bold;color:#0c4572;">Sigue tu orden copiando este número de seguimiento: {{ $tracking }} de la empresa: {{ $shippingProvider }} </h1></td> 
 
-                      <tr style="margin-top: 40px;">
+                      <tr style="margin-top: 120px;">
                         <td>Nombre: {{ $user->name }}</td>
                       </tr>
                       <tr>
