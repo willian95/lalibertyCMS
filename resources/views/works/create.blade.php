@@ -89,7 +89,7 @@
                    
                     <div class="row">
                         <div class="col-12">
-                            <h3 class="text-center">Imágenes secundarias <button @click="create()" class="btn btn-success" data-toggle="modal" data-target="#presentationModal">+</button></h3>
+                            <h3 class="text-center">Contenido secundario <button @click="create()" class="btn btn-success" data-toggle="modal" data-target="#presentationModal">+</button></h3>
                         </div>
 
                     </div>
@@ -124,7 +124,7 @@
                                            
                                             <p v-if="workImage.status == 'subiendo' && workImage.progress < 100">Subiendo</p>
                                             <p v-if="workImage.status == 'subiendo' && workImage.progress == 100">Espere un momento</p>
-                                            <p v-if="workImage.status == 'listo' && workImage.progress == 100">Imágen lista</p>
+                                            <p v-if="workImage.status == 'listo' && workImage.progress == 100">Contenido listo</p>
                                         </td>
                                         <td>
                                             <button class="btn btn-danger" @click="deleteWorkImage(index)"><i class="far fa-trash-alt"></i></button>
@@ -276,7 +276,7 @@
                             })
                         }else{
                             swal({
-                                text:"Aún hay imágenes cargandose",
+                                text:"Aún hay contenido cargandose",
                                 icon:"warning"
                             })
                         }
@@ -285,7 +285,7 @@
 
                         swal({
                             title: "Oops!",
-                            text: "Debe añadir imagenes secundarias para continuar!",
+                            text: "Debe añadir contenido secundario para continuar!",
                             icon: "warning"
                         })
 
@@ -434,7 +434,7 @@
                     }else{
                         swal({
                             title: "Oppss!",
-                            text: "Debes añadir una imágen",
+                            text: "Debes añadir una imágen o video",
                             icon: "error"
                         });
                     }
