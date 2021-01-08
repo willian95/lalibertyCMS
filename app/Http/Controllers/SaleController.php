@@ -71,18 +71,16 @@ class SaleController extends Controller
 
         try{
 
-            $products = ProductPurchase::where("payment_id", $request->paymentId)->with(['productPurchases.productColorSize' => function ($q) {
-                $q->withTrashed();
-                $q->with(['product' => function ($k) {
-                    $k->withTrashed();
-                }]);
-                $q->with(['size' => function ($k) {
-                    $k->withTrashed();
-                }]);
-                $q->with(['color' => function ($k) {
-                    $k->withTrashed();
-                }]);
-            }])->get();
+            $products = ProductPurchase::where("payment_id", $request->paymentId)
+                        ->with(['product' => function ($k) {
+                            $k->withTrashed();
+                        }])
+                        ->with(['size' => function ($k) {
+                            $k->withTrashed();
+                        }])
+                        ->with(["color" => function ($k) {
+                            $k->withTrashed();
+                        }])->get();
             
             
             //->with("productColorSize", "productColorSize.product", "productColorSize.color", "productColorSize.size")->get();
