@@ -37,6 +37,9 @@ class SaleController extends Controller
                 $q->with(['size' => function ($k) {
                     $k->withTrashed();
                 }]);
+                $q->with(['color' => function ($k) {
+                    $k->withTrashed();
+                }]);
             }])
             ->orderBy('id', 'desc')->skip($skip)->take($dataAmount)->get();
 
@@ -47,6 +50,9 @@ class SaleController extends Controller
                     $k->withTrashed();
                 }]);
                 $q->with(['size' => function ($k) {
+                    $k->withTrashed();
+                }]);
+                $q->with(['color' => function ($k) {
                     $k->withTrashed();
                 }]);
             }])->orderBy('id', 'desc')->count();
