@@ -7,6 +7,7 @@ use Intervention\Image\Facades\Image;
 use Carbon\Carbon;
 use App\Product;
 use App\ProductColorSize;
+use App\ProductSecondaryImage;
 use Cloudinary;
 
 use Illuminate\Http\Request;
@@ -77,6 +78,15 @@ class ProductController extends Controller
             $product->image = $fileName;
             $product->slug = $slug;
             $product->save();
+
+            foreach($request->workImages as $workImage){
+
+                $image = new ProductSecondaryImage;
+                $image->product_id = $work->id;
+                $image->image = $workImage['finalName'];
+                $image->save();
+
+            }
 
             foreach($request->productFormatSizes as $productFormatSize){
 
