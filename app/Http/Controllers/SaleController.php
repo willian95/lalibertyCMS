@@ -82,7 +82,7 @@ class SaleController extends Controller
                 $q->with(['color' => function ($k) {
                     $k->withTrashed();
                 }]);
-            }])
+            }])->get();
             
             
             //->with("productColorSize", "productColorSize.product", "productColorSize.color", "productColorSize.size")->get();
