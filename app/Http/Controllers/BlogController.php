@@ -25,28 +25,6 @@ class BlogController extends Controller
     function store(BlogStoreRequest $request){
         ini_set('max_execution_time', 0);
 
-        try{
-
-            $imageData = $request->get('image');
-
-            if(strpos($imageData, "svg+xml") > 0){
-
-                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-                
-
-            }else{
-                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-                
-
-            }
-            
-
-        }catch(\Exception $e){
-
-            return response()->json(["success" => false, "msg" => "Hubo un problema con la imágen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-
-        }
-
 
         try{
 
@@ -60,7 +38,8 @@ class BlogController extends Controller
             $blog = new Blog;
             $blog->title = $request->title;
             $blog->description = $request->description;
-            $blog->image = $fileName;
+            $blog->image = $request->image;
+            $blog->main_image_file_type = $request->mainImageFileType;
             $blog->slug = $slug;
             $blog->created_date = $request->createdDate;
             $blog->save();

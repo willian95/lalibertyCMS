@@ -91,6 +91,16 @@ Route::post("/blogs/update", "BlogController@update")->middleware("auth");
 Route::get("/blogs/fetch/{page}", "BlogController@fetch")->middleware("auth");
 Route::get("/blogs/edit/{id}", "BlogController@edit")->middleware("auth");
 
+Route::get("order/index", "HomeOrderController@index")->name("order.index")->middleware("auth");
+Route::get("order/fetch/works", "HomeOrderController@fetchWorks");
+Route::get("order/fetch/fashion-merch", "HomeOrderController@fetchFashionMerch");
+Route::get("order/fetch/products", "HomeOrderController@fetchProducts");
+Route::get("order/fetch/blogs", "HomeOrderController@fetchBlogs");
+Route::get("order/fetch/elements", "HomeOrderController@fetchElements");
+Route::post("order/store", "HomeOrderController@store");
+Route::post("order/delete", "HomeOrderController@delete");
+Route::post("order/update", "HomeOrderController@update");
+
 route::get("test-email", function(){
 
     //dd(env("MAIL_USERNAME"), env("MAIL_PASSWORD"));

@@ -47,10 +47,22 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="image">Imágen</label>
-                                <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
+                                <label for="image">Imágen o video</label>
+                                <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*|video/*" style="overflow: hidden;" name="image">
 
-                                <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
+                                <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%" v-if="mainImageFileType == 'image'">
+                                <video style="width: 100%;" controls v-else>
+                                    <source :src="imagePreview" type="video/mp4">
+                                </video>
+
+                                <div v-if="pictureStatus == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${imageProgress}%`}">
+                                        @{{ imageProgress }}%
+                                    </div>
+                                
+                                <p v-if="pictureStatus == 'subiendo' && imageProgress < 100">Subiendo</p>
+                                <p v-if="pictureStatus == 'subiendo' && imageProgress == 100">Espere un momento</p>
+                                <p v-if="pictureStatus == 'listo' && imageProgress == 100">Imágen lista</p>
+
                                 <small v-if="errors.hasOwnProperty('image')">@{{ errors['image'][0] }}</small>
                             </div>
                         </div>
@@ -75,7 +87,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <h3 class="text-center">Presentaciones <button @click="create()" class="btn btn-success" data-toggle="modal" data-target="#presentationModal">+</button></h3>
+                            <h3 class="text-center">Contenido secundario <button @click="create()" class="btn btn-success" data-toggle="modal" data-target="#presentationModal">+</button></h3>
                         </div>
 
                     </div>
@@ -88,6 +100,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Imágen</th>
+                                        <th>Progreso</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
@@ -105,6 +118,16 @@
                                             <video style="width: 40%;" controls v-if="workImage.image.indexOf('video') >= 0">
                                                 <source :src="workImage.image" type="video/mp4">
                                             </video>
+                                        </td>
+                                        <td>
+                                            
+                                            <div v-if="workImage.status == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${workImage.progress}%`}">
+                                                @{{ workImage.progress }}%
+                                            </div>
+                                           
+                                            <p v-if="workImage.status == 'subiendo' && workImage.progress < 100">Subiendo</p>
+                                            <p v-if="workImage.status == 'subiendo' && workImage.progress == 100">Espere un momento</p>
+                                            <p v-if="workImage.status == 'listo' && workImage.progress == 100">Contenido listo</p>
                                         </td>
                                         <td>
                                             <button class="btn btn-danger" @click="deleteWorkImage(index)"><i class="far fa-trash-alt"></i></button>
@@ -180,8 +203,11 @@
             el: '#dev-products',
             data(){
                 return{
+                    cloudinaryAPI:"https://api.cloudinary.com/v1_1/laliberty/upload",
+                    cloudinaryPreset:"ml_default",
                     id:"{{ $product->id }}",
                     workImages:JSON.parse('{!! $product->workImages !!}'),
+                    imagesToUpload:[],
                     picture:"",
                     imagePreview:"{{ $product->main_image }}",
                     clientName:"{{ $product->client_name }}",
@@ -194,7 +220,15 @@
                     workImageId:"",
                     errors:[],
                     loading:false,
-                    isFashionMerch:JSON.parse('{{ $product->is_fashion_merch }}')
+                    isFashionMerch:JSON.parse('{{ $product->is_fashion_merch }}'),
+                    file:"",
+                    fileType:"",
+                    fileName:"",
+                    pictureOriginalName:"",
+                    pictureStatus:"",
+                    finalPictureName:"",
+                    imageProgress:0,
+                    mainImageFileType:"{{ $product->main_image_file_type }}"
                 }
             },
             methods:{
@@ -207,29 +241,60 @@
                 update(){
 
                     if(this.workImages.length > 0){
-                        this.loading = true
-                        axios.post("{{ url('/works/update') }}", {id: this.id,title:this.title, image: this.picture, workImages: this.workImages, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate}).then(res => {
-                            this.loading = false
-                            if(res.data.success == true){
 
-                                swal({
-                                    title: "Excelente!",
-                                    text: "Work actualizado!",
-                                    icon: "success"
-                                }).then(function() {
-                                    window.location.href = "{{ url('/works/list') }}";
-                                });
-                                
+                        var completeUploading = true
 
-                            }else{
-                               
-                                alert(res.data.msg)
+                        this.workImages.forEach((data) => {
+                            if(data.status == 'subiendo'){
+                                completeUploading = false
                             }
+                        })
+
+                        if(completeUploading && this.pictureStatus != "subiendo"){
+
+                            this.loading = true
+
+                            this.workImages.forEach((data) => {
+                                if(data.hasOwnProperty("id")){
+                                    this.imagesToUpload.push({id: data.id})
+                                }else{
+                                    this.imagesToUpload.push({type:data.type, finalName:data.finalName})
+                                }
+                                
+                            })
+
+                            axios.post("{{ url('/works/update') }}", {id: this.id,title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate, mainImageFileType: this.mainImageFileType}).then(res => {
+                                this.loading = false
+                                if(res.data.success == true){
+
+                                    swal({
+                                        title: "Excelente!",
+                                        text: "Work actualizado!",
+                                        icon: "success"
+                                    }).then(function() {
+                                        window.location.href = "{{ url('/works/list') }}";
+                                    });
+                                    
+
+                                }else{
+                                
+                                    alert(res.data.msg)
+                                }
 
                             }).catch(err => {
                                 this.loading = false
                                 this.errors = err.response.data.errors
                             })
+
+                        }else{
+
+                            swal({
+                                title: "Oops!",
+                                text: "Aún hay contenido cargandose!",
+                                icon: "warning"
+                            })
+
+                        }
                     
                     }else{
 
@@ -253,6 +318,9 @@
                     this.createImage(files[0]);
                 },
                 createImage(file) {
+                    this.file = file
+                    this.mainImageFileType = file['type'].split('/')[0]
+                    this.uploadMainImage()
                     let reader = new FileReader();
                     let vm = this;
                     reader.onload = (e) => {
@@ -270,6 +338,11 @@
                     this.createSecondaryImage(files[0]);
                 },
                 createSecondaryImage(file) {
+
+                    this.file = file
+                    this.fileType = file['type'].split('/')[0]
+                    this.fileName = file['name']
+
                     let reader = new FileReader();
                     let vm = this;
                     reader.onload = (e) => {
@@ -277,10 +350,101 @@
                     };
                     reader.readAsDataURL(file);
                 },
+                uploadSecondaryImage(){
+
+                    let formData = new FormData()
+                    formData.append("file", this.file)
+                    formData.append("upload_preset", this.cloudinaryPreset)
+
+                    var _this = this
+                    var fileName = this.fileName
+
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                        
+                            if(_this.workImages.length > 0){
+
+                                _this.workImages.forEach((data,index) => {
+                                if(data.originalName == fileName){
+                                    _this.workImages[index].progress = progressPercent
+                                }
+
+                                })
+
+                            }
+                            
+                        }
+                    }
+
+                    axios.post(
+                        this.cloudinaryAPI,
+                        formData,
+                        config                        
+                    ).then(res => {
+                        this.workImages.forEach((data, index) => {
+                            
+                            if(data.hasOwnProperty("originalName")){
+
+                                let returnedName = res.data.original_filename.toLowerCase()
+                                let returnedExtension = res.data.original_extension ? res.data.original_extension : res.data.format
+
+                                if(data.originalName.toLowerCase() == returnedName.toLowerCase()+"."+returnedExtension.toLowerCase()){
+                                    this.workImages[index].status = "listo";
+                                    this.workImages[index].finalName = res.data.secure_url
+                                }
+                            }
+                            
+
+                        })
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+                },
+                uploadMainImage(){
+                    this.imageProgress = 0;
+                    let formData = new FormData()
+                    formData.append("file", this.file)
+                    formData.append("upload_preset", this.cloudinaryPreset)
+
+                    var _this = this
+                    var fileName = this.fileName
+                    this.pictureStatus = "subiendo";
+
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                            _this.imageProgress = progressPercent
+                            
+                        }
+                    }
+
+                    axios.post(
+                        this.cloudinaryAPI,
+                        formData,
+                        config                        
+                    ).then(res => {
+                        
+                        this.pictureStatus = "listo";
+                        this.finalPictureName = res.data.secure_url
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
+                },
                 addProductFormatSizes(){
 
                     if(this.secondaryPicture != null){
-                        this.workImages.push({image: this.secondaryPicture})
+
+                        this.uploadSecondaryImage()
+                        this.workImages.push({image: this.secondaryPicture, status: "subiendo", type:this.fileType, originalName:this.fileName, finalName:"", progress:0})
 
                         this.secondaryPicture = ""
                         this.secondaryPreviewPicture = ""

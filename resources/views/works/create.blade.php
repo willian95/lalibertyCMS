@@ -49,8 +49,8 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="image">Imágen</label>
-                                        <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;" name="image">
+                                        <label for="image">Imágen o video</label>
+                                        <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*|video/*" style="overflow: hidden;" name="image">
 
                                         <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
 
@@ -222,6 +222,7 @@
                     fileName:"",
                     pictureOriginalName:"",
                     pictureStatus:"",
+                    mainImageFileType:"image",
                     finalPictureName:"",
                     imageProgress:0
                 }
@@ -252,7 +253,7 @@
                                 this.imagesToUpload.push({type:data.type, finalName:data.finalName})
                             })
  
-                            axios.post("{{ url('/works/store') }}", {title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate}).then(res => {
+                            axios.post("{{ url('/works/store') }}", {title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate, mainImageFileType: this.mainImageFileType}).then(res => {
                                 this.loading = false
                                 if(res.data.success == true){
 
@@ -304,6 +305,8 @@
                 },
                 createImage(file) {
                     this.file = file
+                    this.mainImageFileType = file['type'].split('/')[0]
+
                     this.uploadMainImage()
                     let reader = new FileReader();
                     let vm = this;
@@ -369,8 +372,11 @@
                         config                        
                     ).then(res => {
                         this.workImages.forEach((data, index) => {
+                            
+                            let returnedName = res.data.original_filename.toLowerCase()
+                            let returnedExtension = res.data.original_extension ? res.data.original_extension : res.data.format
 
-                            if(data.originalName.toLowerCase() == res.data.original_filename.toLowerCase()+"."+res.data.format.toLowerCase()){
+                            if(data.originalName.toLowerCase() == returnedName.toLowerCase()+"."+returnedExtension.toLowerCase()){
                                 this.workImages[index].status = "listo";
                                 this.workImages[index].finalName = res.data.secure_url
                             }

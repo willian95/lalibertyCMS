@@ -106,7 +106,10 @@
                                         @{{ product.category.name }}
                                     </td>
                                     <td>
-                                        <img :src="product.image" alt="" style="width: 100%;">
+                                        <img :src="product.image" alt="" style="width: 100%;" v-if="product.main_image_file_type == 'image'">
+                                        <video style="width: 100%;" controls v-else>
+                                            <source :src="product.image" type="video/mp4">
+                                        </video>
                                     </td>
                                     <td>
                                         <a class="btn btn-info" :href="'{{ url('/') }}'+'/products/edit/'+product.id"><i class="far fa-edit"></i></a>

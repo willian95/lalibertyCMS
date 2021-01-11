@@ -39,26 +39,6 @@ class ProductController extends Controller
 
         }
 
-        try{
-
-            $imageData = $request->get('image');
-
-            if(strpos($imageData, "svg+xml") > 0){
-
-                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-
-            }else{
-
-                $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-            }
-            
-
-        }catch(\Exception $e){
-
-            return response()->json(["success" => false, "msg" => "Hubo un problema con la imágen ", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-
-        }
-
 
         try{
 
@@ -75,14 +55,15 @@ class ProductController extends Controller
             $product->name = $request->name;
             $product->category_id = $request->category;
             $product->description = $sanitizedDescription;
-            $product->image = $fileName;
+            $product->image = $request->image;
+            $product->main_image_file_type = $request->mainImageFileType;
             $product->slug = $slug;
             $product->save();
 
             foreach($request->workImages as $workImage){
 
                 $image = new ProductSecondaryImage;
-                $image->product_id = $work->id;
+                $image->product_id = $product->id;
                 $image->image = $workImage['finalName'];
                 $image->save();
 
@@ -154,7 +135,7 @@ class ProductController extends Controller
             $q->withTrashed();
         }])->with(['productColorSizes.color' => function ($q) {
             $q->withTrashed();
-        }])->where("id", $id)->first();
+        }])->with('secondaryImages')->where("id", $id)->first();
 
         return view("products.edit", ["product" => $product]);
 
@@ -172,31 +153,6 @@ class ProductController extends Controller
 
         }
 
-        if($request->get("image") != null){
-
-            try{
-
-                $imageData = $request->get('image');
-    
-                if(strpos($imageData, "svg+xml") > 0){
-    
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }else{
-    
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }
-                
-    
-            }catch(\Exception $e){
-    
-                return response()->json(["success" => false, "msg" => "Hubo un problema con la imágen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-    
-            }
-
-        }
-
         try{
 
             $sanitizedDescription = str_replace("\n", "", $request->description);
@@ -206,8 +162,9 @@ class ProductController extends Controller
             $product->category_id = $request->category;
             $product->description = $sanitizedDescription;
             if($request->get("image") != null){
-                $product->image =  $fileName;
+                $product->image =  $request->image;
             }
+            $product->main_image_file_type = $request->mainImageFileType;
             $product->update();
 
             $productTypeArray = [];
@@ -262,6 +219,36 @@ class ProductController extends Controller
                     $productType->save();
                 }
                 
+
+            }
+
+            $WorkImagesArray = [];
+            $workImages = ProductSecondaryImage::where("product_id", $product->id)->get();
+            foreach($workImages as $productSecondaryImage){
+                array_push($WorkImagesArray, $productSecondaryImage->id);
+            }
+
+            $requestArray = [];
+            foreach($request->workImages as $image){
+                if(array_key_exists("id", $image)){
+                    array_push($requestArray, $image["id"]);
+                }
+            }
+
+            $deleteWorkImages = array_diff($WorkImagesArray, $requestArray);
+            
+            foreach($deleteWorkImages as $imageDelete){
+                ProductSecondaryImage::where("id", $imageDelete)->delete();
+            }
+
+            foreach($request->workImages as $workImage){
+                if(isset($workImage["finalName"])){
+                    $image = new ProductSecondaryImage;
+                    $image->product_id = $product->id;
+                    $image->image = $workImage['finalName'];
+                    $image->file_type = $workImage["type"];
+                    $image->save();
+                }
 
             }
 

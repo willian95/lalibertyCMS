@@ -146,7 +146,10 @@
                                         @{{ work.created_date }}
                                     </td>
                                     <td>
-                                        <img :src="work.main_image" alt="" style="width: 100%;">
+                                        <img :src="work.main_image" alt="" style="width: 100%;" v-if="work.main_image_file_type == 'image'">
+                                        <video style="width: 100%;" controls v-else>
+                                            <source :src="work.main_image" type="video/mp4">
+                                        </video>
                                     </td>
                                     <td>
                                         <a class="btn btn-info" :href="'{{ url('/') }}'+'/works/edit/'+work.id"><i class="far fa-edit"></i></a>

@@ -43,6 +43,7 @@ class WorkController extends Controller
             $work->client_name = $request->clientName;
             $work->description = $sanitizedDescription;
             $work->main_image = $request->image;
+            $work->main_image_file_type = $request->mainImageFileType;
             $work->slug = $slug;
             $work->is_fashion_merch = $request->isFashionMerch;
             $work->created_date = $request->createdDate;
@@ -96,37 +97,6 @@ class WorkController extends Controller
         ini_set('max_execution_time', 0);
 
 
-        if($request->get("image") != null){
-
-            try{
-
-                $imageData = $request->get('image');
-    
-                if(strpos($imageData, "svg+xml") > 0){
-    
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }
-                else if(strpos($imageData, "gif") > 0){
-
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }
-                else{
-    
-                    $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-    
-                }
-                
-    
-            }catch(\Exception $e){
-    
-                return response()->json(["success" => false, "msg" => "Hubo un problema con la imágen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-    
-            }
-
-        }
-
         try{
 
             $sanitizedDescription = str_replace("\n", "", $request->description);
@@ -136,10 +106,11 @@ class WorkController extends Controller
             $work->client_name = $request->clientName;
             $work->description = $sanitizedDescription;
             if($request->get("image") != null){
-                $product->main_image =  $fileName;
+                $work->main_image =  $request->image;
             }
             $work->is_fashion_merch = $request->isFashionMerch;
             $work->created_date = $request->createdDate;
+            $work->main_image_file_type = $request->mainImageFileType;
             $work->update();
 
             $WorkImagesArray = [];
@@ -161,50 +132,22 @@ class WorkController extends Controller
                 WorkImage::where("id", $imageDelete)->delete();
             }
 
+            
+
             foreach($request->workImages as $image){
-                
-                $isVideo = false;
-                if($image["image"] != null && !array_key_exists("id", $image)){
 
-                    try{
-        
-                        $imageData = $image['image'];
-                        
-                        if(explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[0] == "video"){
-                            $isVideo = true;
-                            $fileName=Cloudinary::uploadVideo($request->get('image'))->getSecurePath();
-                        }
-                        if(strpos($imageData, "svg+xml") > 0){
-            
-                            $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-            
-                        }
-                        else if(strpos($imageData, "gif") > 0){
-
-                            $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-            
-                        }
-                        else{
-            
-                            $fileName=Cloudinary::upload($request->get('image'))->getSecurePath();
-            
-                        }
-                        
-            
-                    }catch(\Exception $e){
-                     
-                        return response()->json(["success" => false, "msg" => "Hubo un problema con la imágen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-            
-                    }
-
+                if(isset($image["finalName"])){
+              
                     $workImage = new WorkImage;
                     $workImage->work_id = $work->id;
-                    $workImage->image = $fileName;
-                    if($isVideo == true){
+                    $workImage->image = $image["finalName"];
+                    if($image["type"] == "video"){
                         $workImage->file_type = "video";
                     }
                     $workImage->save();
-        
+            
+                    
+
                 }
 
             }

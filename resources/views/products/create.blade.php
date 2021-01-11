@@ -47,10 +47,19 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="image">Imágen</label>
-                                <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
+                                <label for="image">Imágen o video</label>
+                                <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*|video/*" style="overflow: hidden;">
 
                                 <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
+
+                                <div v-if="pictureStatus == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${imageProgress}%`}">
+                                    @{{ imageProgress }}%
+                                </div>
+                                
+                                <p v-if="pictureStatus == 'subiendo' && imageProgress < 100">Subiendo</p>
+                                <p v-if="pictureStatus == 'subiendo' && imageProgress == 100">Espere un momento</p>
+                                <p v-if="pictureStatus == 'listo' && imageProgress == 100">Imágen lista</p>
+
                                 <small v-if="errors.hasOwnProperty('image')">@{{ errors['image'][0] }}</small>
                             </div>
                         </div>
@@ -357,8 +366,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="type">Imágen</label>
-                                    <input type="file" class="form-control" ref="file" @change="onSecondaryImageChange" accept="image/*" style="overflow: hidden;">
+                                    <label for="type">Imágen o video</label>
+                                    <input type="file" class="form-control" ref="file" @change="onSecondaryImageChange" accept="image/*|video/*" style="overflow: hidden;">
                                     <img id="blah" :src="secondaryPreviewPicture" class="full-image" style="margin-top: 10px; width: 40%">
 
                                 </div>
@@ -416,6 +425,10 @@
                     newCategory:"",
                     newCategoryPicture:"",
                     newCategoryPreviewPicture:"",
+                    pictureOriginalName:"",
+                    pictureStatus:"",
+                    finalPictureName:"",
+                    imageProgress:0,
                     newColor:"",
                     newSize:"",
                     categoryErrors:[],
@@ -424,7 +437,8 @@
                     errors:[],
                     loading:false,
                     stock:"",
-                    color:""
+                    color:"",
+                    mainImageFileType:"image"
                 }
             },
             methods:{
@@ -441,14 +455,14 @@
                             }
                         })
 
-                        if(completeUploading){
+                        if(completeUploading && this.pictureStatus == "listo"){
 
                             this.workImages.forEach((data) => {
-                                this.imagesToUpload.push({finalName:data.finalName})
+                                this.imagesToUpload.push({finalName:data.finalName, type: data.type})
                             })
 
                             this.loading = true
-                            axios.post("{{ url('/products/store') }}", {name:this.name, category: this.category, image: this.picture, productFormatSizes: this.productFormatSizes, description: this.description, workImages: this.imagesToUpload}).then(res => {
+                            axios.post("{{ url('/products/store') }}", {name:this.name, category: this.category, image: this.finalPictureName, productFormatSizes: this.productFormatSizes, description: this.description, workImages: this.imagesToUpload, mainImageFileType: this.mainImageFileType}).then(res => {
                                 this.loading = false
                                 if(res.data.success == true){
 
@@ -503,12 +517,51 @@
                     this.createImage(files[0]);
                 },
                 createImage(file) {
+                    this.file = file
+                    this.mainImageFileType = file['type'].split('/')[0]
+                    this.uploadMainImage()
                     let reader = new FileReader();
                     let vm = this;
                     reader.onload = (e) => {
                         vm.picture = e.target.result;
                     };
                     reader.readAsDataURL(file);
+                },
+                uploadMainImage(){
+                    this.imageProgress = 0;
+                    let formData = new FormData()
+                    formData.append("file", this.file)
+                    formData.append("upload_preset", this.cloudinaryPreset)
+
+                    var _this = this
+                    var fileName = this.fileName
+                    this.pictureStatus = "subiendo";
+
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                        
+                            _this.imageProgress = progressPercent
+                            
+                            
+                        }
+                    }
+
+                    axios.post(
+                        this.cloudinaryAPI,
+                        formData,
+                        config                        
+                    ).then(res => {
+                        
+                        this.pictureStatus = "listo";
+                        this.finalPictureName = res.data.secure_url
+
+                    }).catch(err => {
+                        console.log(err)
+                    })
+
                 },
                 onImageCategoryChange(e){
                     this.newCategoryPicture = e.target.files[0];
@@ -775,7 +828,10 @@
                     ).then(res => {
                         this.workImages.forEach((data, index) => {
 
-                            if(data.originalName.toLowerCase() == res.data.original_filename.toLowerCase()+"."+res.data.format.toLowerCase()){
+                            let returnedName = res.data.original_filename.toLowerCase()
+                            let returnedExtension = res.data.original_extension ? res.data.original_extension : res.data.format
+
+                            if(data.originalName.toLowerCase() == returnedName.toLowerCase()+"."+returnedExtension.toLowerCase()){
                                 this.workImages[index].status = "listo";
                                 this.workImages[index].finalName = res.data.secure_url
                             }
@@ -791,7 +847,7 @@
 
                     if(this.secondaryPicture != null){
                         this.uploadSecondaryImage()
-                        this.workImages.push({image: this.secondaryPicture, status: "subiendo", originalName:this.fileName, finalName:"", progress:0})
+                        this.workImages.push({image: this.secondaryPicture, type:this.fileType, status: "subiendo", originalName:this.fileName, finalName:"", progress:0})
 
                         this.secondaryPicture = ""
                         this.secondaryPreviewPicture = ""

@@ -135,7 +135,10 @@
                                         @{{ blog.title }}
                                     </td>
                                     <td>
-                                        <img :src="blog.image" alt="" style="width: 100%;">
+                                        <img :src="blog.image" alt="" style="width: 100%;" v-if="blog.main_image_file_type == 'image'">
+                                        <video style="width: 100%;" controls v-else>
+                                            <source :src="blog.image" type="video/mp4">
+                                        </video>
                                     </td>
                                     <td>
                                         @{{ dateFormatter(blog.created_at) }}

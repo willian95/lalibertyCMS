@@ -216,6 +216,13 @@ License: You must have a valid license purchased only from themeforest(the above
 									</a>
 								</li>
 
+								<li class="menu-item" aria-haspopup="true">
+									<a href="{{ route('order.index') }}" class="menu-link">
+										<i class="menu-icon flaticon2-shopping-cart-1"></i>
+										<span class="menu-text">Orden home</span>
+									</a>
+								</li>
+
 								<li class="menu-item menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
 									<a href="javascript:;" class="menu-link menu-toggle">
 										<i class="menu-icon flaticon2-sheet"></i>
