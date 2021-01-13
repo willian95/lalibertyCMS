@@ -65,6 +65,7 @@ class ProductController extends Controller
                 $image = new ProductSecondaryImage;
                 $image->product_id = $product->id;
                 $image->image = $workImage['finalName'];
+                $image->file_type=$workImage["type"];
                 $image->save();
 
             }
@@ -243,6 +244,7 @@ class ProductController extends Controller
 
             foreach($request->workImages as $workImage){
                 if(isset($workImage["finalName"])){
+                    
                     $image = new ProductSecondaryImage;
                     $image->product_id = $product->id;
                     $image->image = $workImage['finalName'];
@@ -251,11 +253,11 @@ class ProductController extends Controller
                 }
 
             }
-
+       
             return response()->json(["success" => true, "msg" => "Producto actualizado"]);
 
         }catch(\Exception $e){
-            return response()->json(["success" => true, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+            return response()->json(["success" => false, "msg" => "Error en el servidor", "err" => $e->getMessage(), "ln" => $e->getLine()]);
         }
 
     }

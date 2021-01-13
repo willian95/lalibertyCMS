@@ -102,7 +102,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="">Odernar por:</label>
+                                <label for="">Ordernar por:</label>
                                 <select class="form-control" v-model="orderBy" @change="fetch()">
                                     <option value="desc">Recientes</option>
                                     <option value="asc">Antiguos</option>
