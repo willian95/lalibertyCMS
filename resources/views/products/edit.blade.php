@@ -70,7 +70,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="description">Descripción</label>
-                                <textarea v-model="description" id="description" class="form-control" rows="3"></textarea>
+                                <textarea rows="3" id="editor1">{!! $product->description !!}</textarea>
                                 <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                             </div>
                         </div>
@@ -398,6 +398,7 @@
 
 @push("scripts")
 
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script>
         
         const app = new Vue({
@@ -425,7 +426,7 @@
                     imagePreview:"{{ $product->image }}",
                     category:"{{ $product->category->id }}",
                     name:"{{ $product->name }}",
-                    description:"{{ $product->description }}",
+                    description:"",
                     action:"create",
                     pages:0,
                     page:1,
@@ -481,7 +482,7 @@
                             })
 
                             this.loading = true
-                            axios.post("{{ url('/products/update') }}", {id: this.id,name:this.name, category: this.category, image: this.picture, productFormatSizes: this.productFormatSizes, description: this.description, workImages: this.imagesToUpload, mainImageFileType: this.mainImageFileType}).then(res => {
+                            axios.post("{{ url('/products/update') }}", {id: this.id,name:this.name, category: this.category, image: this.picture, productFormatSizes: this.productFormatSizes, description: CKEDITOR.instances.editor1.getData(), workImages: this.imagesToUpload, mainImageFileType: this.mainImageFileType}).then(res => {
                                 this.loading = false
                                 if(res.data.success == true){
 
@@ -1015,6 +1016,7 @@
                 this.fetchCategories()
                 this.fetchFormats()
                 this.fetchSizes()
+                CKEDITOR.replace( 'editor1' );
 
             }
 
