@@ -59,7 +59,7 @@ class BlogController extends Controller
             $dataAmount = 20;
             $skip = ($page - 1) * $dataAmount;
         
-            $blogs = Blog::skip($skip)->take($dataAmount)->orderBy("created_at", $request->orderBy)->get();
+            $blogs = Blog::skip($skip)->take($dataAmount)->orderBy("created_date", $request->orderBy)->get();
             $blogsCount = Blog::count();
 
             return response()->json(["success" => true, "blogs" => $blogs, "blogsCount" => $blogsCount, "dataAmount" => $dataAmount]);
