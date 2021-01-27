@@ -482,7 +482,7 @@
                             })
 
                             this.loading = true
-                            axios.post("{{ url('/products/update') }}", {id: this.id,name:this.name, category: this.category, image: this.picture, productFormatSizes: this.productFormatSizes, description: CKEDITOR.instances.editor1.getData(), workImages: this.imagesToUpload, mainImageFileType: this.mainImageFileType}).then(res => {
+                            axios.post("{{ url('/products/update') }}", {id: this.id,name:this.name, category: this.category, image: this.finalPictureName, productFormatSizes: this.productFormatSizes, description: CKEDITOR.instances.editor1.getData(), workImages: this.imagesToUpload, mainImageFileType: this.mainImageFileType}).then(res => {
                                 this.loading = false
                                 if(res.data.success == true){
 
