@@ -69,8 +69,8 @@
 
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="description">Descripción</label>
-                                <textarea v-model="description" id="description" class="form-control" rows="3"></textarea>
+                                <label for="editor1">Descripción</label>
+                                <textarea v-model="description" id="editor1" class="form-control" rows="3"></textarea>
                                 <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                             </div>
                         </div>
@@ -197,6 +197,7 @@
 
 @push("scripts")
 
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script>
         
         const app = new Vue({
@@ -492,6 +493,9 @@
                 }
 
 
+            },
+            mounted(){
+                CKEDITOR.replace( 'editor1' );
             }
 
         })
