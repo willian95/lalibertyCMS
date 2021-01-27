@@ -51,6 +51,13 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Fecha de creación</label>
+                                <input type="date" class="form-control" v-model="createdDate">
+                            </div>
+                        </div>
+
                         <button style="display:none" id="update-click" @click="update()"></button>
 
                     </div>
@@ -107,6 +114,7 @@
                     picture:"",
                     imagePreview:"{{ $blog->image }}",
                     title:"{{ $blog->title }}",
+                    createdDate:"{{ $blog->created_date }}",
                     description:"",
                     errors:[],
                     loading:false,
@@ -134,7 +142,7 @@
                         }else{
 
                             this.loading = true
-                            axios.post("{{ url('/blogs/update') }}", {title:this.title, image: this.finalPictureName, description: this.description, id: this.blogId, mainImageFileType: this.mainImageFileType}).then(res => {
+                            axios.post("{{ url('/blogs/update') }}", {title:this.title, image: this.finalPictureName, description: this.description, id: this.blogId, mainImageFileType: this.mainImageFileType, createdDate: this.createdDate}).then(res => {
                                 this.loading = false
                                 if(res.data.success == true){
 

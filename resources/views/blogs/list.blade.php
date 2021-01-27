@@ -141,7 +141,7 @@
                                         </video>
                                     </td>
                                     <td>
-                                        @{{ dateFormatter(blog.created_at) }}
+                                        @{{ dateFormatter(blog.created_date) }}
                                     </td>
                                     <td>
                                         <a class="btn btn-info" :href="'{{ url('/') }}'+'/blogs/edit/'+blog.id"><i class="far fa-edit"></i></a>
@@ -207,10 +207,13 @@
 
                 dateFormatter(date){
                     
-                    let year = date.substring(0, 4)
-                    let month = date.substring(5, 7)
-                    let day = date.substring(8, 10)
-                    return day+"-"+month+"-"+year
+                    if(date){
+                        let year = date.substring(0, 4)
+                        let month = date.substring(5, 7)
+                        let day = date.substring(8, 10)
+                        return day+"-"+month+"-"+year
+                    }
+
                 },
                 changeOrder(){
 

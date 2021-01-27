@@ -50,6 +50,13 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Fecha de creación</label>
+                                <input type="date" class="form-control" v-model="createdDate">
+                            </div>
+                        </div>
+
                         <button style="display:none" @click="store()" id="create-click"></button>
 
                     </div>
