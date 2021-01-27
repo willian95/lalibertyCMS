@@ -36,12 +36,12 @@ class WorkController extends Controller
                 $slug = $slug."-".uniqid();
             }
 
-            $sanitizedDescription = str_replace("\n", "", $request->description);
+            //$sanitizedDescription = str_replace("\n", "", $request->description);
 
             $work = new work;
             $work->title = $request->title;
             $work->client_name = $request->clientName;
-            $work->description = $sanitizedDescription;
+            $work->description = $request->description;
             $work->main_image = $request->image;
             $work->main_image_file_type = $request->mainImageFileType;
             $work->slug = $slug;
@@ -99,12 +99,12 @@ class WorkController extends Controller
 
         try{
 
-            $sanitizedDescription = str_replace("\n", "", $request->description);
+            //$sanitizedDescription = str_replace("\n", "", $request->description);
 
             $work = Work::find($request->id);
             $work->title = $request->title;
             $work->client_name = $request->clientName;
-            $work->description = $sanitizedDescription;
+            $work->description = $request->description;
             if($request->get("image") != null){
                 $work->main_image =  $request->image;
             }
