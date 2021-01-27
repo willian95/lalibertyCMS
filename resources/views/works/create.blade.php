@@ -69,7 +69,7 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="editor1">Descripción</label>
-                                        <textarea v-model="description" id="editor1" class="form-control" rows="3" name="description"></textarea>
+                                        <textarea id="editor1" class="form-control" rows="3" name="description"></textarea>
                                         <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                                     </div>
                                 </div>
@@ -254,7 +254,7 @@
                                 this.imagesToUpload.push({type:data.type, finalName:data.finalName})
                             })
  
-                            axios.post("{{ url('/works/store') }}", {title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate, mainImageFileType: this.mainImageFileType}).then(res => {
+                            axios.post("{{ url('/works/store') }}", {title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: CKEDITOR.instances.editor1.getData(), clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate, mainImageFileType: this.mainImageFileType}).then(res => {
                                 this.loading = false
                                 if(res.data.success == true){
 

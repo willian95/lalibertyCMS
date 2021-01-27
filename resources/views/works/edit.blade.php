@@ -70,7 +70,7 @@
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label for="editor1">Descripción</label>
-                                <textarea v-model="description" id="editor1" class="form-control" rows="3"></textarea>
+                                <textarea id="editor1" class="form-control" rows="3">{{ $product->description }}</textarea>
                                 <small v-if="errors.hasOwnProperty('description')">@{{ errors['description'][0] }}</small>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                     imagePreview:"{{ $product->main_image }}",
                     clientName:"{{ $product->client_name }}",
                     title:"{{ $product->title }}",
-                    description:"{{ $product->description }}",
+                    description:"",
                     action:"create",
                     createdDate:"{{ $product->created_date }}",
                     secondaryPicture:"",
@@ -264,7 +264,7 @@
                                 
                             })
 
-                            axios.post("{{ url('/works/update') }}", {id: this.id,title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: this.description, clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate, mainImageFileType: this.mainImageFileType}).then(res => {
+                            axios.post("{{ url('/works/update') }}", {id: this.id,title:this.title, image: this.finalPictureName, workImages: this.imagesToUpload, description: CKEDITOR.instances.editor1.getData(), clientName: this.clientName, isFashionMerch: this.isFashionMerch, createdDate: this.createdDate, mainImageFileType: this.mainImageFileType}).then(res => {
                                 this.loading = false
                                 if(res.data.success == true){
 
