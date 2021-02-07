@@ -38,6 +38,6 @@ class backup extends Command
     public function handle()
     {
         $filename='database_backup_'.date('G_a_m_d_y').'.sql';
-        $result=exec('mysqldump deira --password='.env('DB_PASSWORD').' --user='.env("DB_USERNAME").' --single-transaction >/var/backups/'.$filename);
+        $result=exec('mysqldump '.env('DB_DATABASE').' --password='.env('DB_PASSWORD').' --user='.env("DB_USERNAME").' --single-transaction >/var/backups/'.$filename);
     }
 }
