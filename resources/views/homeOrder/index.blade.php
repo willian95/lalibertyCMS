@@ -177,9 +177,24 @@
                             <div class="row">
                                 <div class="col-md-4" v-if="selectedElement != ''">
                                     <img :src="selectedElementPreviewImage" alt="" style="width: 100%;" v-if="selectedElement.main_image_file_type == 'image' || selectedElement.file_type == 'image'">
-                                    <video style="width: 100%;" controls v-else>
-                                        <source :src="selectedElementPreviewImage" type="video/mp4">
-                                    </video>
+                                    <div v-else>
+                                        <video style="width: 100%;" controls >
+                                            <source :src="selectedElementPreviewImage" type="video/mp4">
+                                        </video>
+
+                                        <label for="image">Añadir poster</label>
+                                        <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
+                                        <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
+
+                                        <div v-if="pictureStatus == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${imageProgress}%`}">
+                                            @{{ imageProgress }}%
+                                        </div>
+                                        
+                                        <p v-if="pictureStatus == 'subiendo' && imageProgress < 100">Subiendo</p>
+                                        <p v-if="pictureStatus == 'subiendo' && imageProgress == 100">Espere un momento</p>
+                                        <p v-if="pictureStatus == 'listo' && imageProgress == 100">Imágen lista</p>
+                                    </div>
+
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -225,6 +240,21 @@
                                             <option :value="i" v-for="i in 21">@{{ i }}</option>
                                         </select>
                                     </div>
+
+                                    <div>
+
+                                        <label for="image">Añadir poster</label>
+                                        <input type="file" class="form-control" ref="file" @change="onImageChange" accept="image/*" style="overflow: hidden;">
+                                        <img id="blah" :src="imagePreview" class="full-image" style="margin-top: 10px; width: 40%">
+
+                                        <div v-if="pictureStatus == 'subiendo'" class="progress-bar progress-bar-striped" role="progressbar" aria-valuemin="0" aria-valuemax="100" :style="{'width': `${imageProgress}%`}">
+                                            @{{ imageProgress }}%
+                                        </div>
+                                        
+                                        <p v-if="pictureStatus == 'subiendo' && imageProgress < 100">Subiendo</p>
+                                        <p v-if="pictureStatus == 'subiendo' && imageProgress == 100">Espere un momento</p>
+                                        <p v-if="pictureStatus == 'listo' && imageProgress == 100">Imágen lista</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -250,6 +280,8 @@
             el: '#dev-format',
             data(){
                 return{
+                    cloudinaryAPI:"https://api.cloudinary.com/v1_1/laliberty/upload",
+                    cloudinaryPreset:"ml_default",
                     name:"",
                     elemetId:"",
                     elements:[],
@@ -260,6 +292,11 @@
                     loading:false,
                     orderId:"",
                     order:"",
+                    imagePreview:"",
+                    pictureOriginalName:"",
+                    pictureStatus:"listo",
+                    finalPictureName:"",
+                    imageProgress:0,
                     homeOrders:[]
                 }
             },
@@ -267,43 +304,57 @@
                 
                 store(){
 
-                    this.loading = true
-                    axios.post("{{ url('order/store') }}", {element: this.selectedElement, type: this.type, order: this.order})
-                    .then(res => {
-                        this.loading = false
-                        if(res.data.success == true){
+                    if(this.pictureStatus == "listo"){
 
-                            swal({
-                                title: "Perfecto!",
-                                text: "Haz agregado un elemento al orden!",
-                                icon: "success"
-                            });
+                        this.loading = true
+                        axios.post("{{ url('order/store') }}", {element: this.selectedElement, type: this.type, order: this.order, poster: this.finalPictureName})
+                        .then(res => {
+                            this.loading = false
+                            if(res.data.success == true){
 
-                            $("#modal-close").click();
-                            $('body').removeClass('modal-open');
-                            $('body').css('padding-right', '0px');
-                            $('.modal-backdrop').remove();
+                                this.finalPictureName = ""
 
-                            this.fetchHomeOrder()
-                        }else{
+                                swal({
+                                    title: "Perfecto!",
+                                    text: "Haz agregado un elemento al orden!",
+                                    icon: "success"
+                                });
 
-                            swal({
-                                title: "Lo sentimos!",
-                                text: res.data.msg,
-                                icon: "error"
-                            });
-                        }
+                                $("#modal-close").click();
+                                $('body').removeClass('modal-open');
+                                $('body').css('padding-right', '0px');
+                                $('.modal-backdrop').remove();
 
-                    })
-                    .catch(err => {
-                        this.loading = false
-                        this.errors = err.response.data.errors
-                    })
+                                this.fetchHomeOrder()
+                            }else{
+
+                                swal({
+                                    title: "Lo sentimos!",
+                                    text: res.data.msg,
+                                    icon: "error"
+                                });
+                            }
+
+                        })
+                        .catch(err => {
+                            this.loading = false
+                            this.errors = err.response.data.errors
+                        })
+
+                    }else{
+
+                        swal({
+                            text:"Aún hay contenido cargandose",
+                            icon:"warning"
+                        })
+
+                    }
 
                 },
                 edit(order){
                     this.order = order.order
                     this.orderId = order.id
+                    this.imagePreview = order.poster
                 },
                 erase(id){
                     
@@ -443,40 +494,110 @@
                 },
                 update(){
 
-                    this.loading = true
-                    axios.post("{{ url('order/update') }}", {orderId: this.orderId, order: this.order})
-                    .then(res => {
-                        this.loading = false
-                        if(res.data.success == true){
+                    if(this.pictureStatus == "listo"){
 
-                            swal({
-                                title: "Perfecto!",
-                                text: "Haz actualizado un elemento del orden!",
-                                icon: "success"
-                            });
+                        this.loading = true
+                        axios.post("{{ url('order/update') }}", {orderId: this.orderId, order: this.order, poster: this.finalPictureName})
+                        .then(res => {
+                            this.loading = false
+                            if(res.data.success == true){
 
-                            $("#modal-close-edit").click();
-                            $('body').removeClass('modal-open');
-                            $('body').css('padding-right', '0px');
-                            $('.modal-backdrop').remove();
+                                swal({
+                                    title: "Perfecto!",
+                                    text: "Haz actualizado un elemento del orden!",
+                                    icon: "success"
+                                });
 
-                            this.fetchHomeOrder()
-                        }else{
+                                this.finalPictureName = ""
 
-                            swal({
-                                title: "Lo sentimos!",
-                                text: res.data.msg,
-                                icon: "error"
-                            });
+                                $("#modal-close-edit").click();
+                                $('body').removeClass('modal-open');
+                                $('body').css('padding-right', '0px');
+                                $('.modal-backdrop').remove();
+
+                                this.fetchHomeOrder()
+                            }else{
+
+                                swal({
+                                    title: "Lo sentimos!",
+                                    text: res.data.msg,
+                                    icon: "error"
+                                });
+                            }
+
+                        })
+                        .catch(err => {
+                            this.loading = false
+                            this.errors = err.response.data.errors
+                        })
+
+                    }else{
+
+                        swal({
+                            text:"Aún hay contenido cargandose",
+                            icon:"warning"
+                        })
+
+                    }
+
+
+                },
+                onImageChange(e){
+                    let picture = e.target.files[0];
+
+                    this.imagePreview = URL.createObjectURL(picture);
+                    let files = e.target.files || e.dataTransfer.files;
+                    if (!files.length)
+                        return;
+                    this.createImage(files[0]);
+                },
+                createImage(file) {
+                    this.file = file
+                    this.mainImageFileType = file['type'].split('/')[0]
+                    this.uploadMainImage()
+                    let reader = new FileReader();
+                    let vm = this;
+                    reader.onload = (e) => {
+                        vm.picture = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+                uploadMainImage(){
+                    this.imageProgress = 0;
+                    let formData = new FormData()
+                    formData.append("file", this.file)
+                    formData.append("upload_preset", this.cloudinaryPreset)
+
+                    var _this = this
+                    var fileName = this.fileName
+                    this.pictureStatus = "subiendo";
+
+                    var config = {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        onUploadProgress: function(progressEvent) {
+                            
+                            var progressPercent = Math.round((progressEvent.loaded * 100.0) / progressEvent.total);
+                        
+                            _this.imageProgress = progressPercent
+                            
+                            
                         }
+                    }
 
-                    })
-                    .catch(err => {
-                        this.loading = false
-                        this.errors = err.response.data.errors
+                    axios.post(
+                        this.cloudinaryAPI,
+                        formData,
+                        config                        
+                    ).then(res => {
+                        
+                        this.pictureStatus = "listo";
+                        this.finalPictureName = res.data.secure_url
+
+                    }).catch(err => {
+                        console.log(err)
                     })
 
-                }
+                },
 
 
             },

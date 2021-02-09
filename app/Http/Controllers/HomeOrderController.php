@@ -71,6 +71,7 @@ class HomeOrderController extends Controller
         }
 
         $homeOrder->order = $request->order;
+        $homeOrder->poster = $request->poster;
         $homeOrder->save();
 
         return response()->json(["success" => true, "msg" => "Elemento agregado al home"]);
@@ -98,6 +99,7 @@ class HomeOrderController extends Controller
 
         $homeOrder = HomeOrder::find($request->orderId);
         $homeOrder->order = $request->order;
+        $homeOrder->poster = $request->poster;
         $homeOrder->update();
 
         return response()->json(["success" => true, "msg" => "Elemento actualizado"]);
