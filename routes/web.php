@@ -105,26 +105,30 @@ Route::get("clear-cloudinary", function(){
 
     $images = Http::get("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/image");
     foreach($images->json() as $imageCloud){
-        dump($imageCloud->secure_url);
-        /*$image = App\WorkImage::where("image", $imageCloud->secure_url)->first();
-        if(!$image){
-            $image = App\Work::where("image", $imageCloud->secure_url)->first();
+        
+        foreach($imageCloud as $imageCl){
+
+            $image = App\WorkImage::where("image", $imageCl->secure_url)->first();
             if(!$image){
-                $image = App\ProductSecondaryImage::where("image", $imageCloud->secure_url)->first();
+                $image = App\Work::where("image", $imageCl->secure_url)->first();
                 if(!$image){
-                    $image = App\Product::where("image", $imageCloud->secure_url)->first();
+                    $image = App\ProductSecondaryImage::where("image", $imageCl->secure_url)->first();
                     if(!$image){
-                        $image = App\Blog::where("image", $imageCloud->secure_url)->first();
+                        $image = App\Product::where("image", $imageCl->secure_url)->first();
+                        if(!$image){
+                            $image = App\Blog::where("image", $imageCl->secure_url)->first();
+                        }
                     }
                 }
             }
-        }*/
 
-        /*if(!$image){
+            if(!$image){
 
-            Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/upload?prefix='".$imageCloud->public_id."'");
+                Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/upload?prefix='".$imageCl->public_id."'");
 
-        }*/
+            }
+        }
+        
     }
     //https://res.cloudinary.com/laliberty/image/upload/v1613022182/001_L_L_work_ncmafw.jpg
 
