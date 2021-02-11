@@ -106,7 +106,7 @@ Route::get("clear-cloudinary", function(){
     $images = Http::get("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/image");
     foreach($images->json() as $imageCloud){
         
-        if($imageCl["secure_url"]){
+        if($imageCloud){
 
             foreach($imageCloud as $imageCl){
 
