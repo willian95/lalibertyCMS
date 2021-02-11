@@ -101,6 +101,40 @@ Route::post("order/store", "HomeOrderController@store");
 Route::post("order/delete", "HomeOrderController@delete");
 Route::post("order/update", "HomeOrderController@update");
 
+Route::get("clear-cloudinary", function(){
+
+    $images = Http::get("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/image");
+    foreach($images->json() as $imageCloud){
+
+        $image = App\WorkImage::where("image", $imageCloud->secure_url)->first();
+        if(!$image){
+            $image = App\Work::where("image", $imageCloud->secure_url)->first();
+            if(!$image){
+                $image = App\ProductSecondaryImage::where("image", $imageCloud->secure_url)->first();
+                if(!$image){
+                    $image = App\Product::where("image", $imageCloud->secure_url)->first();
+                    if(!$image){
+                        $image = App\Blog::where("image", $imageCloud->secure_url)->first();
+                    }
+                }
+            }
+        }
+
+        if(!$image){
+
+            Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/upload?prefix='".$imageCloud->public_id."'");
+
+        }
+
+    }
+    //https://res.cloudinary.com/laliberty/image/upload/v1613022182/001_L_L_work_ncmafw.jpg
+
+    //$images =Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/image?public_ids='001_L_L_work_ncmafw'");
+
+    //dd($images->body());
+
+})->middleware("auth");
+
 route::get("test-email", function(){
 
     //dd(env("MAIL_USERNAME"), env("MAIL_PASSWORD"));

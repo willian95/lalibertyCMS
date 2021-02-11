@@ -39,7 +39,6 @@ class ProductController extends Controller
 
         }
 
-
         try{
 
             $slug = str_replace(" ","-", $request->name);
