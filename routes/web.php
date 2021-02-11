@@ -106,7 +106,7 @@ Route::get("clear-cloudinary", function(){
     $images = Http::get("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/image");
     foreach($images->json() as $imageCloud){
         dump($imageCloud);
-        $image = App\WorkImage::where("image", $imageCloud->secure_url)->first();
+        /*$image = App\WorkImage::where("image", $imageCloud->secure_url)->first();
         if(!$image){
             $image = App\Work::where("image", $imageCloud->secure_url)->first();
             if(!$image){
@@ -117,7 +117,7 @@ Route::get("clear-cloudinary", function(){
                         $image = App\Blog::where("image", $imageCloud->secure_url)->first();
                     }
                 }
-            }
+            }*/
         }
 
         if(!$image){
