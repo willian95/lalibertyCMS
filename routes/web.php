@@ -106,27 +106,31 @@ Route::get("clear-cloudinary", function(){
     $images = Http::get("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/image");
     foreach($images->json() as $imageCloud){
         
-        foreach($imageCloud as $imageCl){
+        if($imageCl["secure_url"]){
 
-            $image = App\WorkImage::where("image", $imageCl["secure_url"])->first();
-            if(!$image){
-                $image = App\Work::where("main_image", $imageCl["secure_url"])->first();
+            foreach($imageCloud as $imageCl){
+
+                $image = App\WorkImage::where("image", $imageCl["secure_url"])->first();
                 if(!$image){
-                    $image = App\ProductSecondaryImage::where("image", $imageCl["secure_url"])->first();
+                    $image = App\Work::where("main_image", $imageCl["secure_url"])->first();
                     if(!$image){
-                        $image = App\Product::where("image", $imageCl["secure_url"])->first();
+                        $image = App\ProductSecondaryImage::where("image", $imageCl["secure_url"])->first();
                         if(!$image){
-                            $image = App\Blog::where("image", $imageCl["secure_url"])->first();
+                            $image = App\Product::where("image", $imageCl["secure_url"])->first();
+                            if(!$image){
+                                $image = App\Blog::where("image", $imageCl["secure_url"])->first();
+                            }
                         }
                     }
                 }
+    
+                if(!$image){
+    
+                    $response = Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/upload?prefix='".$imageCl["public_id"]."'");
+                    dd($response->body());
+                }
             }
 
-            if(!$image){
-
-                Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/upload?prefix='".$imageCl["public_id"]."'");
-
-            }
         }
         
     }
