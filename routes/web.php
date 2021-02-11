@@ -110,13 +110,13 @@ Route::get("clear-cloudinary", function(){
 
             $image = App\WorkImage::where("image", $imageCl["secure_url"])->first();
             if(!$image){
-                $image = App\Work::where("image", $imageCl["secure_url"])->first();
+                $image = App\Work::where("main_image", $imageCl["secure_url"])->first();
                 if(!$image){
-                    $image = App\ProductSecondaryImage::where("image", $imageCl->secure_url)->first();
+                    $image = App\ProductSecondaryImage::where("image", $imageCl["secure_url"])->first();
                     if(!$image){
-                        $image = App\Product::where("image", $imageCl->secure_url)->first();
+                        $image = App\Product::where("image", $imageCl["secure_url"])->first();
                         if(!$image){
-                            $image = App\Blog::where("image", $imageCl->secure_url)->first();
+                            $image = App\Blog::where("image", $imageCl["secure_url"])->first();
                         }
                     }
                 }
