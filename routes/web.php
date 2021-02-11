@@ -127,7 +127,7 @@ Route::get("clear-cloudinary", function(){
                 if(!$image){
     
                     $response = Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/image/upload?prefix='".$imageCl["public_id"]."'");
-                    dd($response->body());
+                    dump($response->body());
                 }
             }
 
