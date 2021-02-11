@@ -117,15 +117,14 @@ Route::get("clear-cloudinary", function(){
                         $image = App\Blog::where("image", $imageCloud->secure_url)->first();
                     }
                 }
-            }*/
-        }
+            }
+        }*/
 
-        if(!$image){
+        /*if(!$image){
 
             Http::delete("https://".env("CLOUDINARY_API").":".env("CLOUDINARY_SECRET")."@api.cloudinary.com/v1_1/laliberty/resources/upload?prefix='".$imageCloud->public_id."'");
 
-        }
-
+        }*/
     }
     //https://res.cloudinary.com/laliberty/image/upload/v1613022182/001_L_L_work_ncmafw.jpg
 
