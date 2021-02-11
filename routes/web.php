@@ -108,9 +108,9 @@ Route::get("clear-cloudinary", function(){
         
         foreach($imageCloud as $imageCl){
 
-            $image = App\WorkImage::where("image", $imageCl->secure_url)->first();
+            $image = App\WorkImage::where("image", $imageCl["secure_url"])->first();
             if(!$image){
-                $image = App\Work::where("image", $imageCl->secure_url)->first();
+                $image = App\Work::where("image", $imageCl["secure_url"])->first();
                 if(!$image){
                     $image = App\ProductSecondaryImage::where("image", $imageCl->secure_url)->first();
                     if(!$image){
