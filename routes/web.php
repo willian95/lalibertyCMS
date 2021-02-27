@@ -144,20 +144,20 @@ Route::get("clear-cloudinary", function(){
 
 Route::get("q_auto", function(){
 
-    $workImages = App\Work::all();
+    $workImages = App\WorkImage::all();
 
     foreach($workImages as $workImage){
         
-        if(strpos($workImage->main_image, "/image/upload") > 0){
+        if(strpos($workImage->image, "/image/upload") > 0){
 
             $image = App\Work::find($workImage->id);
-            $image->main_image = str_replace("/image/upload", "/image/upload/q_auto", $image->main_image);
+            $image->image = str_replace("/image/upload", "/image/upload/q_auto", $image->image);
             $image->update();
 
-        }else if(strpos($workImage->main_image, "/video/upload") > 0){
+        }else if(strpos($workImage->image, "/video/upload") > 0){
 
-            $image = App\Work::find($workImage->id);
-            $image->main_image = str_replace("/video/upload", "/video/upload/q_auto", $image->main_image);
+            $image = App\WorkImage::find($workImage->id);
+            $image->image = str_replace("/video/upload", "/video/upload/q_auto", $image->image);
             $image->update();
 
         }
