@@ -164,7 +164,7 @@ Route::get("q_auto", function(){
 
     }
 
-})->middleware("auth");
+});
 
 route::get("test-email", function(){
 
