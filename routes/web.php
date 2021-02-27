@@ -144,7 +144,7 @@ Route::get("clear-cloudinary", function(){
 
 Route::get("q_auto", function(){
 
-    $workImages = App\WorkImage::all();
+    $workImages = App\Blog::all();
 
     foreach($workImages as $workImage){
         
