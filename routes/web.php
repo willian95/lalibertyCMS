@@ -142,6 +142,30 @@ Route::get("clear-cloudinary", function(){
 
 })->middleware("auth");
 
+Route::get("q_auto", function(){
+
+    $workImages = App\WorkImage::all();
+
+    foreach($workImages as $workImage){
+        
+        if(strpos("/image/upload") > 0){
+
+            $image = WorkImage::find($workImage->id);
+            $image->image = str_replace("/image/upload", "image/upload/qr_auto");
+            $image->update();
+
+        }else if(strpos("/video/upload") > 0){
+
+            $image = WorkImage::find($workImage->id);
+            $image->image = str_replace("/video/upload", "video/upload/qr_auto");
+            $image->update();
+
+        }
+
+    }
+
+})->middleware("auth");
+
 route::get("test-email", function(){
 
     //dd(env("MAIL_USERNAME"), env("MAIL_PASSWORD"));
