@@ -151,13 +151,13 @@ Route::get("q_auto", function(){
         if(strpos($workImage->image, "/image/upload") > 0){
 
             $image = App\Blog::find($workImage->id);
-            $image->image = str_replace("/image/upload", "image/upload/qr_auto");
+            $image->image = str_replace("/image/upload", "image/upload/qr_auto", $image->image);
             $image->update();
 
         }else if(strpos($workImage->image, "/video/upload") > 0){
 
             $image = App\Blog::find($workImage->id);
-            $image->image = str_replace("/video/upload", "video/upload/qr_auto");
+            $image->image = str_replace("/video/upload", "video/upload/qr_auto", $image->image);
             $image->update();
 
         }
