@@ -150,7 +150,7 @@ Route::get("q_auto", function(){
         
         if(strpos($workImage->image, "/image/upload") > 0){
 
-            $image = App\Work::find($workImage->id);
+            $image = App\WorkImage::find($workImage->id);
             $image->image = str_replace("/image/upload", "/image/upload/q_auto", $image->image);
             $image->update();
 
